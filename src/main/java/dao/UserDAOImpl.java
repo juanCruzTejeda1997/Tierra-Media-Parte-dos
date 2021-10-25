@@ -10,21 +10,20 @@ import java.util.List;
 import jdbc.ConnectionProvider;
 import model.User;
 
-public class UserDAOimpl implements userDAO{
+public class UserDAOimpl implements UserDAO{
 
 
 	public int insert(Usuario usuario) {
 		try {
-		String sql="INSERT INTO usuario (nombre,preferencia, presupuesto, tiempo_disponible, id_itinerario) VALUES (?, ?, ?, ?, ?)";
+		String sql="INSERT INTO usuario (nombre,presupuesto, tiempo_disponible, tipo_id) VALUES (?, ?, ?, ?)";
 		Connection conn = ConnectionProvider.getConnection();
 		
 		PreparedStatement statement = conn.prepareStatement(sql);
-		statement.setString(1, usuario.getNombre());
-		statement.setString(2, usuario.getPreferencia());
+		statement.setString(2, usuario.getNombre());
 		statement.setString(3, usuario.getPresupuesto());
+		statement.setString(5, usuario.getPreferencia());
 		statement.setString(4, usuario.getTiempoDisponible());
-		statement.setString(5, usuario.getItinerario());
-		
+				
 		int rows = statement.executeUpdate();
 		
 		return rows;
@@ -37,16 +36,16 @@ public class UserDAOimpl implements userDAO{
 	
 	public int update(Usuario usuario) {
 		try{
-			String sql= "UPDATE usuario SET  (nombre,preferencia, presupuesto, tiempo_disponible, id_itinerario) VALUES (?, ?, ?, ?, ?)";
+			String sql= "UPDATE usuario SET (nombre,presupuesto, tiempo_disponible, tipo_id) VALUES (?, ?, ?, ?)";
 		
 		Connection conn = ConnectionProvider.getConnection();
 		PreparedStatement statement = conn.prepareStatement(sql);
 		
-		statement.setString(1, usuario.getNombre());
-		statement.setString(2, usuario.getPreferencia());
+		statement.setString(2, usuario.getNombre());
 		statement.setString(3, usuario.getPresupuesto());
+		statement.setString(5, usuario.getPreferencia());
 		statement.setString(4, usuario.getTiempoDisponible());
-		statement.setString(5, usuario.getItinerario());
+				
 		
 		int rows = statement.executeUpdate();
 		
@@ -63,7 +62,7 @@ public class UserDAOimpl implements userDAO{
 		Connection conn = ConnectionProvider.getConnection();
 		PreparedStatement statement = conn.prepareStatement(sql);
 		
-		statement.setString(1, usuario.getNombre());
+		statement.setString(2, usuario.getNombre());
 		int rows = statement.executeUpdate();
 		
 		return rows;
@@ -79,7 +78,7 @@ public class UserDAOimpl implements userDAO{
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			
-			statement.setString(1, nombre);
+			statement.setString(2, nombre);
 			
 			ResultSet resultados = statement.executeQuery();
 			
@@ -96,9 +95,9 @@ public class UserDAOimpl implements userDAO{
 			
 		}
 		
-		public Usuario toUser(ResultSet resultados) {
+		public Usuario toUser(ResultSet resultados) throws SQLException  {
 			try {
-			return new Usuario(resultados.getString(1), resultados.getString(2),  resultados.getString(3),  resultados.getString(4) );
+			return new Usuario(resultados.getString(2), resultados.getString(5),  resultados.getString(3),  resultados.getString(4) );
 			}catch(Exception e) {
 				throw new MissingDataException(e);
 			}
@@ -142,6 +141,7 @@ public class UserDAOimpl implements userDAO{
 		}
 			
 		}
+
 
 
 
