@@ -8,9 +8,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import jdbc.ConnectionProvider;
-import model.User;
+import model.Usuario;
 
-public class UserDAOimpl implements UserDAO{
+public class UserDAOImpl implements UserDAO{
 
 
 	public int insert(Usuario usuario) {
@@ -20,9 +20,9 @@ public class UserDAOimpl implements UserDAO{
 		
 		PreparedStatement statement = conn.prepareStatement(sql);
 		statement.setString(2, usuario.getNombre());
-		statement.setString(3, usuario.getPresupuesto());
-		statement.setString(5, usuario.getPreferencia());
-		statement.setString(4, usuario.getTiempoDisponible());
+		statement.setDouble(3, usuario.getPresupuesto());
+		statement.setInt(5, usuario.getPreferencia());
+		statement.setDouble(4, usuario.getTiempoDisponible());
 				
 		int rows = statement.executeUpdate();
 		
@@ -42,9 +42,9 @@ public class UserDAOimpl implements UserDAO{
 		PreparedStatement statement = conn.prepareStatement(sql);
 		
 		statement.setString(2, usuario.getNombre());
-		statement.setString(3, usuario.getPresupuesto());
-		statement.setString(5, usuario.getPreferencia());
-		statement.setString(4, usuario.getTiempoDisponible());
+		statement.setDouble(3, usuario.getPresupuesto());
+		statement.setInt(5, usuario.getPreferencia());
+		statement.setDouble(4, usuario.getTiempoDisponible());
 				
 		
 		int rows = statement.executeUpdate();
@@ -95,9 +95,9 @@ public class UserDAOimpl implements UserDAO{
 			
 		}
 		
-		public Usuario toUser(ResultSet resultados) throws SQLException  {
+		public Usuario toUser(ResultSet resultados)   {
 			try {
-			return new Usuario(resultados.getString(2), resultados.getString(5),  resultados.getString(3),  resultados.getString(4) );
+			return new Usuario(resultados.getString(2), resultados.getInt(5),  resultados.getDouble(3),  resultados.getDouble(4) );
 			}catch(Exception e) {
 				throw new MissingDataException(e);
 			}
