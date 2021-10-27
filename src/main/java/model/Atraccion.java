@@ -1,66 +1,32 @@
 package model;
 
 
-public class Atraccion {
-
-	public String nombre;
+public class Atraccion extends Producto{
 	public int cupo;
 	private double tiempo;
 	private double costo;
-	private int tipoAtraccion;
 	
-	public Atraccion(String nombre, int cupo, double tiempo, double costo, int tipoAtraccion) {
-		super();
-		this.nombre = nombre;
-		this.cupo = cupo;
-		this.tiempo = tiempo;
+	public Atraccion(String nombre, int tipo, double costo, double tiempo,  int cupo) {
+		super(nombre, tipo);
 		this.costo = costo;
-		this.tipoAtraccion = tipoAtraccion;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public int getCupo() {
-		return cupo;
-	}
-
-	public void setCupo(int cupo) {
+		this.tiempo = tiempo;
 		this.cupo = cupo;
 	}
-
-	public double getTiempo() {
-		return tiempo;
-	}
-
-	public void setTiempo(double tiempo) {
-		this.tiempo = tiempo;
-	}
-
+	
 	public double getCosto() {
-		return costo;
-	}
-
-	public void setCosto(double costo) {
-		this.costo = costo;
-	}
-
-	public int getTipoAtraccion() {
-		return tipoAtraccion;
-	}
-
-	public void setTipoAtraccion(int tipoAtraccion) {
-		this.tipoAtraccion = tipoAtraccion;
+		return this.costo;
 	}
 	
+	public double getTiempo() {
+		return this.tiempo;
+	}
 	
+	public int getCupo() {
+		return this.cupo;
+	}
 	
-	
-	
+	@Override
+	public String toString() {
+		return super.nombre + "(" + this.costo + " monedas, " + this.tiempo + " horas, " + this.cupo + " lugares, tipo: " + super.tipo + ")";
+	}
 }
-
