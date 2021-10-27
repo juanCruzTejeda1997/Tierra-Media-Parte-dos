@@ -1,146 +1,104 @@
-package dao;
+package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+import java.sql.SQLException;
 import java.util.LinkedList;
-import java.util.List;
 
 import jdbc.ConnectionProvider;
-import model.User;
+import model.Usuario;
 
-public class UserDAOimpl implements UserDAO{
+public class UserDAOImpl implements UserDAO{
 
+	public int insert(Usuario usuario) throws SQLException {
+		String sql = "INSERT INTO usuario (nombre, presupuesto, tiempo_disponible, tipo_id) VALUES (?, ?, ?, ?)";
+		Connection conn = ConnectionProvider.getConnection();
 
-	public int insert(Usuario usuario) {
+		PreparedStatement statement = conn.prepareStatement(sql);
+		statement.setString(1, usuario.getNombre());
+		statement.setDouble(2, usuario.getPresupuesto());
+		statement.setDouble(3, usuario.getTiempoDisponible());
+		statement.setInt(4, usuario.getPreferencia());
+		int rows = statement.executeUpdate();
+
+		return rows;
+	}
+	
+	public int update(Usuario usuario) throws SQLException {
+		String sql = "UPDATE usuario SET presupuesto = ?, TIEMPO = ? WHERE NOMBRE = ?";
+		Connection conn = ConnectionProvider.getConnection();
+
+		PreparedStatement statement = conn.prepareStatement(sql);
+		statement.setDouble(1, usuario.getPresupuesto());
+		statement.setDouble(2, usuario.getTiempoDisponible());
+		statement.setString(3, usuario.getNombre());
+		int rows = statement.executeUpdate();
+
+		return rows;
+	}
+
+	public java.util.List<Usuario> findAll() {
+		String sql = "SELECT * FROM USUARIO";
+		Connection conn = null;
 		try {
-		String sql="INSERT INTO usuario (nombre,presupuesto, tiempo_disponible, tipo_id) VALUES (?, ?, ?, ?)";
-		Connection conn = ConnectionProvider.getConnection();
-		
-		PreparedStatement statement = conn.prepareStatement(sql);
-		statement.setString(2, usuario.getNombre());
-		statement.setString(3, usuario.getPresupuesto());
-		statement.setString(5, usuario.getPreferencia());
-		statement.setString(4, usuario.getTiempoDisponible());
-				
-		int rows = statement.executeUpdate();
-		
-		return rows;
-		}catch(Exception e) {
-			throw new MissingDataException(e);
+			conn = ConnectionProvider.getConnection();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
 		}
-		
-	}
-	
-	
-	public int update(Usuario usuario) {
-		try{
-			String sql= "UPDATE usuario SET (nombre,presupuesto, tiempo_disponible, tipo_id) VALUES (?, ?, ?, ?)";
-		
-		Connection conn = ConnectionProvider.getConnection();
-		PreparedStatement statement = conn.prepareStatement(sql);
-		
-		statement.setString(2, usuario.getNombre());
-		statement.setString(3, usuario.getPresupuesto());
-		statement.setString(5, usuario.getPreferencia());
-		statement.setString(4, usuario.getTiempoDisponible());
-				
-		
-		int rows = statement.executeUpdate();
-		
-		return rows;
-		}catch(Exception e) {
-			throw new MissingDataException(e);
-		}
-	}
-	
-	public int delete(Usuario usuario) {
-		try{
-			String sql= "DELETE FROM usuario WHERE nombre = ?";
-		
-		Connection conn = ConnectionProvider.getConnection();
-		PreparedStatement statement = conn.prepareStatement(sql);
-		
-		statement.setString(2, usuario.getNombre());
-		int rows = statement.executeUpdate();
-		
-		return rows;
-		}catch(Exception e) {
-			throw new MissingDataException(e);
-		}
-	}
-		
-		
-		public Usuario findByUsername(String nombre) {
-			try {
-			String sql= "SELECT * FROM usuario WHERE nombre = ?";
-			Connection conn = ConnectionProvider.getConnection();
-			PreparedStatement statement = conn.prepareStatement(sql);
-			
-			statement.setString(2, nombre);
-			
-			ResultSet resultados = statement.executeQuery();
-			
-			Usuario usuario = null;
-			
-			if(resultados.next()) {
-				usuario = toUser(resultados);
-			}
-			
-			return usuario;
-			}catch(Exception e) {
-				throw new MissingDataException(e);
-			}
-			
-		}
-		
-		public Usuario toUser(ResultSet resultados) throws SQLException  {
-			try {
-			return new Usuario(resultados.getString(2), resultados.getString(5),  resultados.getString(3),  resultados.getString(4) );
-			}catch(Exception e) {
-				throw new MissingDataException(e);
-			}
-			
-		}
-		
-		public List<Usuario> findAll() {
-			try {
-			String sql="SELECT * FROM users";
-			Connection conn = ConnectionProvider.getConnection();
-			PreparedStatement statement = conn.prepareStatement(sql);
-			
-			ResultSet resultados= statement.executeQuery();
-			
-			List<Usuario> usuarios=new LinkedList<Usuario>();
-			
-			while(resultados.next()) {
-				usuarios.add(toUser(resultados));
-			}
-			
-			return usuarios;
-		}catch(Exception e) {
-			throw new MissingDataException(e);
-		}
-		}
-		
-		public int countAll()  {
+		PreparedStatement statement = null;
 		try {
-			String sql = "SELECT COUNT(1) AS TOTAL FROM users";
-			Connection conn = ConnectionProvider.getConnection();
-			PreparedStatement statement = conn.prepareStatement(sql);
-			 
-			ResultSet resultados = statement.executeQuery();
-			resultados.next();
-			
-			int total = resultados.getInt("TOTAL");
-			
-			return total;
-		}catch(Exception e) {
-			throw new MissingDataException(e);
+			statement = conn.prepareStatement(sql);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
-			
+		ResultSet resultados = null;
+		try {
+			resultados = statement.executeQuery();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+
+		LinkedList<Usuario> libros = new LinkedList<Usuario>();
+		try {
+			while (resultados.next()) {
+				try {
+					libros.add(toUsuario(resultados));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return libros;
+	}
+
+	private Usuario toUsuario(ResultSet resultados) throws SQLException {
+		return new Usuario(resultados.getString(2), resultados.getDouble(3), resultados.getDouble(4), resultados.getInt(5));
+		// nombre, monedas, tiempo, preferencia
+	}
+
+	public Usuario findByUsername(String usuario) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int countAll() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int delete(Usuario t) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 
 

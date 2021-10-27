@@ -1,126 +1,50 @@
-package dao;
+package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
-import java.util.List;
 
 import jdbc.ConnectionProvider;
-import model.Promocion;
+import model.PromocionPorcentual;
 
+public class PromocionDAOImpl {
+	public int insertPromocionPorcentual(PromocionPorcentual promocion) throws SQLException {
+		
+		String sql = "INSERT INTO promocion (nombre, tipo_promocion_id, tipo_id, descuento, total, atraccion_id) VALUES (?, ?, ?, ?, ?, ?)";
+		//String nombre, int tipo, int tipo_promocion, double descuento
+		Connection conn = ConnectionProvider.getConnection();
+		
+		PreparedStatement statement = conn.prepareStatement(sql);
+		statement.setString(1, promocion.getNombre());
+		statement.setInt(3, promocion.getTipo());
+		statement.setInt(2, promocion.getTipoPromocion());
+		statement.setDouble(4, promocion.getDescuento());
+		statement.setNull(5, java.sql.Types.DOUBLE);
+		statement.setNull(6, java.sql.Types.INTEGER);
+		int rows = statement.executeUpdate();
 
-public class PromocionDAOImpl implements PromocionDAO{
-	
-	public int insert(Promocion promocion) {
-		try {
-			String sql = "INSERT INTO PROMOCION (NOMBRE, TIPO_PROMOCION_ID, TIPO_ID, DESCUENTO, TOTAL) VALUES (?, ?, ?, ?, ?)";
-			Connection conn = ConnectionProvider.getConnection();
+		return rows;
+	}
 
-			PreparedStatement statement = conn.prepareStatement(sql);
-			statement.setString(2, promocion.getNombre());
-			statement.setInt(3, promocion.getTipoPromocion());
-			statement.setInt(4, promocion.getTipoDeAtraccion());
-			statement.setDouble(5, promocion.getDescuento());
-			statement.setDouble(6, promocion.getTotal());
-			int rows = statement.executeUpdate();
+	public LinkedList<PromocionPorcentual> findAllPromocionesPorcentuales() throws SQLException {
+		String sql = "SELECT * FROM promocion ";
+		Connection conn = ConnectionProvider.getConnection();
+		PreparedStatement statement = conn.prepareStatement(sql);
+		ResultSet resultados = statement.executeQuery();
 
-			return rows;
-		} catch (Exception e) {
-			throw new MissingDataException(e);
+		LinkedList<PromocionPorcentual> promociones = new LinkedList<PromocionPorcentual>();
+		while (resultados.next()) {
+			promociones.add(toPromocion(resultados));
 		}
+
+		return promociones;
 	}
 
-	public int update(Promocion promocion) {
-		try {
-			String sql = "UPDATE PROMOCION SET TIPO_PROMOCION_ID = ?, TIPO_ID = ?, DESCUENTO = ?, TOTAL = ? WHERE NOMBRE = ?";
-			Connection conn = ConnectionProvider.getConnection();
-
-			PreparedStatement statement = conn.prepareStatement(sql);
-			statement.setInt(3, promocion.getTipoPromocion());
-			statement.setInt(4, promocion.getTipoDeAtraccion());
-			statement.setDouble(5, promocion.getDescuento());
-			statement.setDouble(6, promocion.getTotal());
-			int rows = statement.executeUpdate();
-
-			return rows;
-		} catch (Exception e) {
-			throw new MissingDataException(e);
-		}
+	private PromocionPorcentual toPromocion(ResultSet resultados) throws SQLException {
+		return new PromocionPorcentual(resultados.getInt(1), resultados.getString(2), resultados.getInt(3), resultados.getInt(4), resultados.getDouble(5), resultados.getDouble(6), resultados.getInt(7));
+		
+		// String nombre, int tipo, int tipo_promocion, double descuento
 	}
-
-	public int delete(Promocion promocion) {
-		try {
-			String sql = "DELETE FROM PROMOCION WHERE NOMBRE = ?";
-			Connection conn = ConnectionProvider.getConnection();
-
-			PreparedStatement statement = conn.prepareStatement(sql);
-			statement.setString(2, promocion.getNombre());
-			int rows = statement.executeUpdate();
-
-			return rows;
-		} catch (Exception e) {
-			throw new MissingDataException(e);
-		}
-	}
-
-	public Promocion buscarPromocionPorNombre(String nombre) {
-		try {
-			String sql = "SELECT * FROM PROMOCION WHERE NOMBRE = ?";
-			Connection conn = ConnectionProvider.getConnection();
-			PreparedStatement statement = conn.prepareStatement(sql);
-			statement.setString(2, nombre);
-			ResultSet resultados = statement.executeQuery();
-
-			Promocion promocion = null;
-
-			if (resultados.next()) {
-				promocion = toPromocion(resultados);
-			}
-
-			return promocion;
-		} catch (Exception e) {
-			throw new MissingDataException(e);
-		}
-	}
-
-	public int countAll() {
-		try {
-			String sql = "SELECT COUNT(1) AS TOTAL FROM PROMOCION";
-			Connection conn = ConnectionProvider.getConnection();
-			PreparedStatement statement = conn.prepareStatement(sql);
-			ResultSet resultados = statement.executeQuery();
-
-			resultados.next();
-			int total = resultados.getInt("TOTAL");
-
-			return total;
-		} catch (Exception e) {
-			throw new MissingDataException(e);
-		}
-	}
-
-	public List<Promocion> findAll() {
-		try {
-			String sql = "SELECT * FROM PROMOCION";
-			Connection conn = ConnectionProvider.getConnection();
-			PreparedStatement statement = conn.prepareStatement(sql);
-			ResultSet resultados = statement.executeQuery();
-
-			List<Promocion> promociones = new LinkedList<Promocion>();
-			while (resultados.next()) {
-				promociones.add(toPromocion(resultados));
-			}
-
-			return promociones;
-		} catch (Exception e) {
-			throw new MissingDataException(e);
-		}
-	}
-
-	private Promocion toPromocion(ResultSet resultados) throws SQLException {
-		return new Promocion(resultados.getString(2), resultados.getInt(3), resultados.getInt(4), resultados.getDouble(5), resultados.getDouble(6));
-	}
-
 }

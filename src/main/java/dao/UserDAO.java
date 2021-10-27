@@ -1,11 +1,22 @@
-package dao;
+package DAO;
 
-public interface UserDAO  extends GenericDAO<Usuario>{
+import java.sql.SQLException;
+import java.util.List;
 
-	public abstract Usuario findByUsername(String usuario);
-	
-	
-	
-	
-	
+import model.Usuario;
+
+public interface  UserDAO extends GenericDAO<Usuario> {
+	public Usuario findByUsername(String usuario);
+
+	public List<Usuario> findAll();
+
+	public int countAll();
+
+	public int insert(Usuario t) throws SQLException;
+
+	public int update(Usuario t) throws SQLException;
+
+	public int delete(Usuario t);
+
+
 }

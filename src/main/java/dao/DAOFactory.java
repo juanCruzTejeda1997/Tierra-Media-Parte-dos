@@ -1,9 +1,19 @@
-package dao;
+package DAO;
+
+
 
 public class DAOFactory {
 
-	public static UserDAO getUserDAO() {
-		return new UserDAOimpl();
-	}
+
+		public static UserDAOImpl getUserDAO() {
+			return new UserDAOImpl();
+		}
+
+		public static AtraccionDAOImpl getAtraccionDAO() {
+			return new AtraccionDAOImpl();
+			
+		}
+		
 	
+
 }
