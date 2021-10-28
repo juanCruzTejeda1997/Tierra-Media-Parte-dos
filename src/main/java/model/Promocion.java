@@ -1,45 +1,72 @@
 package model;
 
-public abstract class Promocion extends Producto{
-	@SuppressWarnings("unused")
-	private int tipo_promocion_id;
-	Atraccion [] atracciones;
+public abstract class Promocion{
+
+	private int id;
+	private String nombre;
+	private int atraccion1_id;
+	private int atraccion2_id;
+	private double tiempo;
+	private double costo;
+	private int tipo_id;
 	
-	protected double total;
-	private int atraccionGratis;
-	protected int tipo_id;
 	
-	/*
-	public Promocion(String nombre, int tipo, int tipo_promocion, double descuento, double total, int atraccion_gratis) {
-		super(nombre, tipo);
-		this.tipo_promocion = tipo_promocion;
-		this.descuento = descuento;
-		this.total = total;
-		this.atraccionGratis = atraccion_gratis;
+	public Promocion(String nombre, int atraccion1_id, int atraccion2_id,
+			double tiempo, double costo, int tipo_id, int id) {
+		
+		this.id = id;
+		this.nombre = nombre;
+		this.atraccion1_id = atraccion1_id;
+		this.atraccion2_id = atraccion2_id;
+		this.tiempo = tiempo;
+		this.costo = costo;
+		this.tipo_id = tipo_id;
 	}
-	*/
-	public Promocion(String nombre, int tipo_id, int tipo_promocion_id) {
-		super(nombre, tipo_id);
-		this.tipo_promocion_id = tipo_promocion_id;
+
+
+
+
+	public Promocion(String nombre2, int atraccion1_id2, int atraccion2_id2, double tiempo2, double costo2,
+			int tipo_id2) {
+		// TODO Auto-generated constructor stub
 	}
-	
+
+
+
+
 	public String getNombre() {
-		return super.nombre;
+		return nombre;
+	}
+
+
+	public int getAtraccion1_id() {
+		return atraccion1_id;
+	}
+
+
+	public int getAtraccion2_id() {
+		return atraccion2_id;
+	}
+
+
+	public double getTiempo() {
+		return tiempo;
+	}
+
+
+	public double getCosto() {
+		return costo;
+	}
+
+
+	public int getTipo_id() {
+		return tipo_id;
+	}
+
+
+	public int getId() {
+		return id;
 	}
 	
-	public Integer getAtraccionGratis() {
-		return this.atraccionGratis;
-	}
 	
-	public Integer getTipoPromocion() {
-		return this.tipo_promocion_id;
-	}
-	
-	public int getTipo() {
-		return this.tipo_id;
-	}
-	
-	public Double getTotal() {
-		return this.total;
-	}
 }

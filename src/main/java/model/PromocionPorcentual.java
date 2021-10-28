@@ -1,49 +1,38 @@
 package model;
 
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
-import jdbc.ConnectionProvider;
 
 public class PromocionPorcentual extends Promocion{
-
-	private double descuento;
-	private int tipo_promocion_id = 1;
-	private int id;
-	private int tipo_id;
-	private int atraccion_id;
 	
+	private double descuento;	
 	
-	public PromocionPorcentual(int id, String nombre, int tipo_promocion_id, int tipo_id, double descuento, double total, int atraccion_id) throws SQLException {
-		super(nombre, tipo_id, tipo_promocion_id);
+	public PromocionPorcentual(int id, String nombre, int atraccion1_id, int atraccion2_id, double tiempo,
+			double descuento, double costo, int tipo_id) {
+		super(id, nombre, atraccion1_id, atraccion2_id, tiempo, costo, tipo_id);
 		this.descuento = descuento;
-		}
+	}
 	
-	public Double getDescuento() {
+	public PromocionPorcentual( String nombre, int atraccion1_id, int atraccion2_id, double tiempo,
+			double descuento, double costo, int tipo_id) {
+		super(tipo_id, nombre, atraccion1_id, atraccion2_id, tiempo, costo, tipo_id);
+		this.descuento = descuento;
+	}
+
+
+	@Override
+	public String toString() {
+		return " id: " + super.getId() + " Nombre: " + super.getNombre() + " atracción 1 ID: " + super.getAtraccion1_id() +
+				" atracción 2 ID: " + super.getAtraccion2_id() + " Tipo id : " + super.getTipo_id() + " Descuento : "+ getDescuento() +
+				" costo: " + super.getCosto();
+
+	}
+
+
+	public double getDescuento() {
 		return this.descuento;
 	}
-	public int getAtraccion_id() {
-		return this.atraccion_id;
-	}
-	public int getTipo_id() {
-		return this.tipo_id;
-	}
-
-	public int getTipo_promocion_id1() {
-		return tipo_promocion_id;
-	}
-
 	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
+	
 	}
 	
 	/*public ArrayList<Atraccion> getAtracciones() throws SQLException {
@@ -84,16 +73,11 @@ public class PromocionPorcentual extends Promocion{
 		return total;
 	}
 	*/
-	@Override
-	public String toString() {
-		return super.getNombre() + " : " + " id promocion :" +  getTipo_promocion_id1() + " tipo id :" + getTipo_id()+ " tipo descuento: "+ getDescuento()+ " total " + getTotal()+ " id atracion:"+ getAtraccion_id();
-		
-	}
 
 
 
 	
 
 	
-}
+
 
