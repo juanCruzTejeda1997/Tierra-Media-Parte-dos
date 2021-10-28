@@ -12,6 +12,10 @@ public abstract class Producto {
 		this.tipo = tipo;
 	}
 	
+	public Producto(String nombre2) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getNombre() {
 		return this.nombre;
 	}

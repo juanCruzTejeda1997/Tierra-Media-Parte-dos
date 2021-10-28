@@ -1,18 +1,45 @@
 package model;
 
 
-public class Atraccion extends Producto{
+public class Atraccion {
+	private int id;
 	public int cupo;
+	int tipoid;
+	tipo tipo;
 	private double tiempo;
 	private double costo;
+	private String nombre;
 	
-	public Atraccion(String nombre, int tipo, double costo, double tiempo,  int cupo) {
-		super(nombre, tipo);
+	public Atraccion(String nombre, double costo,  double tiempo,  int cupo, int tipoid) {
+		this.nombre = nombre;
 		this.costo = costo;
 		this.tiempo = tiempo;
 		this.cupo = cupo;
 	}
 	
+	public Atraccion(int id, String nombre, double costo, double tiempo,  int cupo, int tipoid) {
+		this.nombre = nombre;
+		this.costo = costo;
+		this.tiempo = tiempo;
+		this.cupo = cupo;
+		this.tipoid = tipoid;
+		this.id = id;
+	}
+	public Atraccion(String nombre, double costo, double tiempo,  int cupo, tipo tipo) {
+		this.nombre = nombre;
+		this.costo = costo;
+		this.tiempo = tiempo;
+		this.cupo = cupo;
+		this.tipo = tipo;
+		
+	}
+	
+	
+
+
+
+
+
 	public double getCosto() {
 		return this.costo;
 	}
@@ -27,6 +54,20 @@ public class Atraccion extends Producto{
 	
 	@Override
 	public String toString() {
-		return super.nombre + "(" + this.costo + " monedas, " + this.tiempo + " horas, " + this.cupo + " lugares, tipo: " + super.tipo + ")";
+		return "ID = " + this.id + "  NOMBRE = " + this.nombre + " ,con un costo de = " + this.costo + ", con un tiempo de = " + this.tiempo + " ,con un cupo de = " + this.cupo + " ,con un tipo de = " + this.tipo ;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public String getNombre() {
+		return this.nombre;
+	
+	}
+
+	public int getTipo() {
+		return this.tipoid;
+		
 	}
 }

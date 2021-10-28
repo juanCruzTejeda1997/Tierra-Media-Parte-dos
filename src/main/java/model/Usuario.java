@@ -8,7 +8,20 @@ public class Usuario {
 	private double presupuesto;
 	private double tiempo_disponible;
 	private int tipo_preferencia_id;
+	private tipo tipo_preferencia;
 
+	public Usuario(String nombre, double presupuesto, double tiempo_disponible, int tipo_preferencia_id) {
+		this.nombre = nombre;
+		this.presupuesto = presupuesto;
+		this.tiempo_disponible = tiempo_disponible;
+		this.tipo_preferencia_id = tipo_preferencia_id;
+	}
+	public Usuario(String nombre, double presupuesto, double tiempo_disponible, tipo tipo_preferencia) {
+		this.nombre = nombre;
+		this.presupuesto = presupuesto;
+		this.tiempo_disponible = tiempo_disponible;
+		this.tipo_preferencia= tipo_preferencia;
+	}
 	public Usuario(int id, String nombre, double presupuesto, double tiempo_disponible, int tipo_preferencia_id) {
 		this.nombre = nombre;
 		this.presupuesto = presupuesto;
@@ -17,7 +30,7 @@ public class Usuario {
 	}
 	
 	public String toString() {
-		return this.nombre + " prefiere las atracciones del tipo " + this.tipo_preferencia_id + ", tiene " + this.presupuesto + " monedas disponibles y cuenta con " + this.tiempo_disponible + " horas disponibles";
+		return this.nombre + " prefiere las atracciones del tipo " + this.tipo_preferencia + ", tiene " + this.presupuesto + " monedas disponibles y cuenta con " + this.tiempo_disponible + " horas disponibles";
 	}
 	
 	public String getNombre() {
@@ -38,5 +51,8 @@ public class Usuario {
 
 	public int getId() {
 		return id;
+	}
+	public tipo getTipo_preferencia() {
+		return tipo_preferencia;
 	}
 }
