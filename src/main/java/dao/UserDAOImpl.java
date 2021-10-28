@@ -12,14 +12,16 @@ import model.Usuario;
 public class UserDAOImpl implements UserDAO{
 
 	public int insert(Usuario usuario) throws SQLException {
-		String sql = "INSERT INTO usuario (nombre, presupuesto, tiempo_disponible, tipo_id) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO Usuario (id, nombre, presupuesto, tiempo_disponible, tipo_preferencia_id) VALUES (?, ?, ?, ?,?)";
 		Connection conn = ConnectionProvider.getConnection();
 
 		PreparedStatement statement = conn.prepareStatement(sql);
-		statement.setString(1, usuario.getNombre());
-		statement.setDouble(2, usuario.getPresupuesto());
-		statement.setDouble(3, usuario.getTiempoDisponible());
-		statement.setInt(4, usuario.getPreferencia());
+		statement.setInt(1, usuario.getId());
+		statement.setString(2, usuario.getNombre());
+		statement.setDouble(3, usuario.getPresupuesto());
+		statement.setDouble(4, usuario.getTiempoDisponible());
+		statement.setInt(5, usuario.getTipo_preferencia_id());
+		
 		int rows = statement.executeUpdate();
 
 		return rows;
@@ -62,11 +64,11 @@ public class UserDAOImpl implements UserDAO{
 			e1.printStackTrace();
 		}
 
-		LinkedList<Usuario> libros = new LinkedList<Usuario>();
+		LinkedList<Usuario> usuarios = new LinkedList<Usuario>();
 		try {
 			while (resultados.next()) {
 				try {
-					libros.add(toUsuario(resultados));
+					usuarios.add(toUsuario(resultados));
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -77,12 +79,12 @@ public class UserDAOImpl implements UserDAO{
 			e.printStackTrace();
 		}
 
-		return libros;
+		return usuarios;
 	}
 
 	private Usuario toUsuario(ResultSet resultados) throws SQLException {
-		return new Usuario(resultados.getString(2), resultados.getDouble(3), resultados.getDouble(4), resultados.getInt(5));
-		// nombre, monedas, tiempo, preferencia
+		return new Usuario(resultados.getInt(1), resultados.getString(2), resultados.getDouble(3), resultados.getDouble(4), resultados.getInt(5));
+		// id,nombre,presupuesto,tiempo y preferencia
 	}
 
 	public Usuario findByUsername(String usuario) {
