@@ -1,20 +1,27 @@
 package model;
 
-
 public abstract class Promocion{
-	protected String nombre;
-	protected int tipoPromocion;
-	protected int tipoDeAtraccion;
-	protected double descuento ;
-	protected double total;
+
+	private int id;
+	private String nombre;
+	private int atraccion1_id;
+	private int atraccion2_id;
+	private double tiempo;
+	private double costo;
+	private int tipo_id;
 	
 	
-	public Promocion(String nombre, int tipoPromocion, int tipoDeAtraccion, double descuento, double total) {
+	
+
+	public Promocion(int id, String nombre, int atraccion1_id, int atraccion2_id, double tiempo, double costo,
+			int tipo_id) {
+		this.id = id;
 		this.nombre = nombre;
-		this.tipoPromocion = tipoPromocion;
-		this.tipoDeAtraccion = tipoDeAtraccion;
-		this.descuento = descuento;
-		this.total = total;
+		this.atraccion1_id = atraccion1_id;
+		this.atraccion2_id = atraccion2_id;
+		this.tiempo = tiempo;
+		this.costo = costo;
+		this.tipo_id = tipo_id;
 	}
 
 
@@ -23,53 +30,35 @@ public abstract class Promocion{
 	}
 
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public int getAtraccion1_id() {
+		return atraccion1_id;
 	}
 
 
-	public int getTipoPromocion() {
-		return tipoPromocion;
+	public int getAtraccion2_id() {
+		return atraccion2_id;
 	}
 
 
-	public void setTipoPromocion(int tipoPromocion) {
-		this.tipoPromocion = tipoPromocion;
+	public double getTiempo() {
+		return tiempo;
 	}
 
 
-	public int getTipoDeAtraccion() {
-		return tipoDeAtraccion;
+	public double getCosto() {
+		return costo;
 	}
 
 
-	public void setTipoDeAtraccion(int tipoDeAtraccion) {
-		this.tipoDeAtraccion = tipoDeAtraccion;
+	public int getTipo_id() {
+		return tipo_id;
 	}
 
 
-	public double getDescuento() {
-		return descuento;
-	}
-
-
-	public void setDescuento(double descuento) {
-		this.descuento = descuento;
-	}
-
-
-	public double getTotal() {
-		return total;
-	}
-
-
-	public void setTotal(double total) {
-		this.total = total;
+	public int getId() {
+		return id;
 	}
 	
 	
-	
-
 }
-	
 	
