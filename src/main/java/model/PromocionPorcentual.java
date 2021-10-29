@@ -3,44 +3,49 @@ package model;
 
 
 public class PromocionPorcentual extends Promocion{
+
+	private double descuento;
+
+	private static int id;
 	
-	private double descuento;	
-	
-	
-	
-	public PromocionPorcentual( int id, String nombre, int atraccion1_id, int atraccion2_id, double tiempo,
-			 double costo, int tipo_id) {
-		super(nombre, atraccion1_id, atraccion2_id, tiempo, costo, tipo_id);
-	
-	}
-	public PromocionPorcentual( String nombre, int atraccion1_id, int atraccion2_id, double tiempo,
-			double descuento, double costo, int tipo_id) {
-		super(nombre, atraccion1_id, atraccion2_id, tiempo, costo, tipo_id);
+
+
+	public PromocionPorcentual(int id, String nombre, int atraccion1_id, int atraccion2_id, double descuento, double tiempo, double costo,
+			int tipo_id) {
+		super(id, nombre, atraccion1_id, atraccion2_id, tiempo, costo, tipo_id);
 		this.descuento = descuento;
 	}
-	public PromocionPorcentual( int id, String nombre, int atraccion1_id, int atraccion2_id, double tiempo,
-			double descuento, double costo, int tipo_id) {
-		super(nombre, atraccion1_id, atraccion2_id, tiempo, costo, tipo_id);
+	
+	public PromocionPorcentual( String nombre, int atraccion1_id, int atraccion2_id, double descuento, double tiempo, double costo,
+			int tipo_id) {
+		super(id, nombre, atraccion1_id, atraccion2_id, tiempo, costo, tipo_id);
 		this.descuento = descuento;
 	}
 
-
 	
+	
+
+
+
 	@Override
 	public String toString() {
 		return " id: " + super.getId() + " Nombre: " + super.getNombre() + " atracción 1 ID: " + super.getAtraccion1_id() +
-				" atracción 2 ID: " + super.getAtraccion2_id() + " tiempo = " + super.getTiempo()+ " Descuento : "+ getDescuento() +
-				" costo: " + super.getCosto() + " Tipo id : " + super.getTipo_id() ;
+				" atracción 2 ID: " + super.getAtraccion2_id() + " descuento:  " + getDescuento() + "Tipo id : " + super.getTipo_id()
+				+ " costo: " + super.getCosto();
 
 	}
-
 
 	public double getDescuento() {
-		return this.descuento;
+		return descuento;
+	}
+
+	
+
+
 	}
 	
 	
-	}
+	
 	
 	/*public ArrayList<Atraccion> getAtracciones() throws SQLException {
 		String sql = "SELECT ID FROM PROMOCION WHERE NOMBRE = ?";

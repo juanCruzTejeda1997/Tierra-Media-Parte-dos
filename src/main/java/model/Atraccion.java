@@ -25,7 +25,8 @@ public class Atraccion {
 		this.tipoid = tipoid;
 		this.id = id;
 	}
-	public Atraccion(String nombre, double costo, double tiempo,  int cupo, tipo tipo) {
+	public Atraccion(int id, String nombre, double costo, double tiempo,  int cupo, tipo tipo) {
+		this.id= id;
 		this.nombre = nombre;
 		this.costo = costo;
 		this.tiempo = tiempo;
@@ -54,8 +55,15 @@ public class Atraccion {
 	
 	@Override
 	public String toString() {
-		return "ID = " + this.id + "  NOMBRE = " + this.nombre + " ,con un costo de = " + this.costo + ", con un tiempo de = " + this.tiempo + " ,con un cupo de = " + this.cupo + " ,con un tipo de = " + this.tipo ;
+		
+		if(this.tipo != null ) {
+			return "ID = " + this.id + "  NOMBRE = " + this.nombre + " ,con un costo de = " + this.costo + ", con un tiempo de = " + this.tiempo + " ,con un cupo de = " + this.cupo + " ,con un tipo de = " + this.tipo ;
+			
+		}		
+		return  "ID = " + this.id + "  NOMBRE = " + this.nombre + " ,con un costo de = " + this.costo + ", con un tiempo de = " + this.tiempo + " ,con un cupo de = " + this.cupo + " ,con un tipo de = " + this.tipoid ;
 	}
+	
+	
 
 	public int getId() {
 		return id;

@@ -3,18 +3,20 @@ package model;
 public abstract class Promocion{
 
 
-
-	private int id;
+	protected int id;
 	private String nombre;
 	private int atraccion1_id;
 	private int atraccion2_id;
 	private double tiempo;
 	private double costo;
-	private int tipo_id;
+	protected int tipo_id;
 	
 	
-	public Promocion(String nombre, int atraccion1_id, int atraccion2_id, double tiempo, double costo, int tipo_id) {
-		super();
+	
+
+	public Promocion(int id, String nombre, int atraccion1_id, int atraccion2_id, double tiempo, double costo,
+			int tipo_id) {
+		this.id = id;
 		this.nombre = nombre;
 		this.atraccion1_id = atraccion1_id;
 		this.atraccion2_id = atraccion2_id;
@@ -22,6 +24,15 @@ public abstract class Promocion{
 		this.costo = costo;
 		this.tipo_id = tipo_id;
 	}
+	
+	
+
+
+	public Promocion(String nombre2, int atraccion1_id2, int atraccion2_id2, double tiempo2, double costo2,
+			int tipo_id2) {
+		// TODO Auto-generated constructor stub
+	}
+
 
 
 
