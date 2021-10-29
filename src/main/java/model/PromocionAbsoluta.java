@@ -22,14 +22,23 @@ public class PromocionAbsoluta extends Promocion {
 		
 	}
 	
+	public PromocionAbsoluta(int id, String nombre, Atraccion atraccion1, Atraccion atraccion2, double tiempo, double costo,
+			tipo tipo) {
+		super(id, nombre, atraccion1, atraccion2, tiempo, costo, tipo);
+		
+	}
+	
 
 
 
 	@Override
 	public String toString() {
-		return " id: " + super.getId() + " Nombre: " + super.getNombre() + " atracción 1 ID: " + super.getAtraccion1_id() +
-				" atracción 2 ID: " + super.getAtraccion2_id()  + "Tipo id : " + super.getTipo_id()
-				+ " costo: " + super.getCosto();
+		if(this.tipo != null) {
+			return "| ID = " + super.getId() + "| NOMBRE =" + super.getNombre() + "| ATRACCION1 NOMBRE = " + this.getAtraccion1().getNombre() +
+					"| ATRACCION2 NOMBRE = " + this.getAtraccion2().getNombre() + "| costo: " + super.getCosto() +  " TIPO TIPO = " + super.getTipo();
+		}
+		return "|| ID = " + super.getId() + " | NOMBRE =" + super.getNombre() + "| ATRACCION1 ID = " + super.getAtraccion1_id() +
+				"| ATRACCION2 ID = " + super.getAtraccion2_id()  + "| COSTO " + super.getCosto() + "| TIPO ID = : " + super.getTipo_id();
 
 	}
 
