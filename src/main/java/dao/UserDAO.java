@@ -15,7 +15,7 @@ public interface  UserDAO extends GenericDAO<Usuario> {
 
 	public int countAll();
 
-	public int insert(Usuario t);
+	public int insert(Usuario t) throws SQLException;
 
 	public int update(Usuario t) throws SQLException;
 

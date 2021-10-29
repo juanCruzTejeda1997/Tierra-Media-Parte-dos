@@ -70,6 +70,7 @@ public class AtraccionDAOImpl {
 
 		ArrayList<Atraccion> atracciones = new ArrayList<Atraccion>();
 		while (resultados.next()) {
+			int id = resultados.getInt(1);
 			 String nombreDeAtraccion =resultados.getString(2);
 			    double costoDeAtraccion = resultados.getDouble(3);
 			    double tiempo = resultados.getDouble(4);
@@ -88,7 +89,7 @@ public class AtraccionDAOImpl {
 		    				tipoDeAtraccion = tipo.PAISAJE;
 		    			} 
 
-		    			Atraccion a = new Atraccion(nombreDeAtraccion,costoDeAtraccion,tiempo,cupo, tipoDeAtraccion);
+		    			Atraccion a = new Atraccion(id, nombreDeAtraccion,costoDeAtraccion,tiempo,cupo, tipoDeAtraccion);
 		    			atracciones.add(a);
 		}
 

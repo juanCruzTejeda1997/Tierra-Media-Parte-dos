@@ -50,7 +50,7 @@ public class UserDAOImpl implements UserDAO{
 	
 	public java.util.List<Usuario> findAll() {
 		try {
-			String sql = "SELECT * FROM Usuarios";
+			String sql = "SELECT * FROM Usuario";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet resultados = statement.executeQuery();
@@ -79,6 +79,7 @@ public class UserDAOImpl implements UserDAO{
 			
 			
 			while (resultados.next()) {
+				int id = resultados.getInt(1);
 				   String nombreDeUsuario =resultados.getString(2);				   
 				    Integer tipo_preferencia_id =resultados.getInt(5);
 				    tipo tipo_preferencia = null;
@@ -95,7 +96,7 @@ public class UserDAOImpl implements UserDAO{
 		    				tipo_preferencia = tipo.PAISAJE;
 		    			} 
 
-				        Usuario UsuarioNuevo = new Usuario(nombreDeUsuario, presupuesto, tiempo_disponible, tipo_preferencia);
+				        Usuario UsuarioNuevo = new Usuario(id, nombreDeUsuario, presupuesto, tiempo_disponible, tipo_preferencia);
 				        usuarios.add(UsuarioNuevo);
 
 
