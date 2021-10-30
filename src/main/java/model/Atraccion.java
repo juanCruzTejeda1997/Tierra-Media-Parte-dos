@@ -1,6 +1,10 @@
 package model;
 
-public class Atraccion {
+import java.util.Objects;
+
+
+
+public class Atraccion extends Producto{
 
 	private int id;
 	private String nombre;
@@ -10,7 +14,7 @@ public class Atraccion {
 	private int tipoId;
 	private tipo tipo;
 
-	public Atraccion(int id, String nombre, double costo, double tiempo, int cupo, int tipoId) {
+public Atraccion(int id, String nombre, double costo, double tiempo, int cupo, int tipoId) {
 		
 		this.id = id;
 		this.nombre = nombre;
@@ -41,6 +45,7 @@ public Atraccion(String nombre, double costo, double tiempo, int cupo, int tipoI
 	this.tipoId = tipoId;
 	
 }
+
 
 
 
@@ -77,13 +82,57 @@ public tipo getTipo() {
 	public String toString() {
 
 		if (this.tipo != null) {
-			return "||ID = " + getId() + "  NOMBRE = " + getNombre() + " COSTO = " + getCosto() + " TIEMPO = "
-					+ getTiempo() + " CUPO = " + getCupo() + " TIPO TIPO = " + getTipo();
+			return "||ID = " + super.getId() + "  NOMBRE = " + super.getNombre() + " COSTO = " + super.getCosto() + " TIEMPO = "
+					+ super.getTiempo() + " CUPO = " + super.getCupo() + " TIPO TIPO = " + super.getTipo();
 
 		}
-		return "||ID = " + getId() + "  NOMBRE = " + getNombre() + " COSTO = " + getCosto() + " TIEMPO = " + getTiempo()
-				+ " CUPO = " + getCupo() + " TIPO ID = " + getTipoId();
+		return "||ID = " + super.getId() + "  NOMBRE = " + super.getNombre() + " COSTO = " +super. getCosto() + " TIEMPO = " + super.getTiempo()
+				+ " CUPO = " + super.getCupo() + " TIPO ID = " + super.getTipoId();
 	}
+
+	@Override
+	protected void restarCupo() {
+		super.cupo-=1;
+		
+	}
+
+	@Override
+	protected boolean esPromo() {
+		
+		return false;
+	}
+
+	@Override
+	public boolean contiene(Producto producto) {
+		if (producto.esPromo()) {
+			return producto.contiene(this);
+		}
+		return this.equals(producto);
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(costo, cupo, nombre, tiempo, tipo);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Atraccion other = (Atraccion) obj;
+		return Double.doubleToLongBits(costo) == Double.doubleToLongBits(other.costo) && cupo == other.cupo
+				&& Objects.equals(nombre, other.nombre)
+				&& Double.doubleToLongBits(tiempo) == Double.doubleToLongBits(other.tiempo)
+				&& tipo == other.tipo;
+	}
+
 
 	
 }
