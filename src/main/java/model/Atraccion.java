@@ -1,66 +1,138 @@
 package model;
 
+import java.util.Objects;
 
-public class Atraccion {
 
-	public String nombre;
-	public int cupo;
-	private double tiempo;
+
+public class Atraccion extends Producto{
+
+	private int id;
+	private String nombre;
 	private double costo;
-	private int tipoAtraccion;
-	
-	public Atraccion(String nombre, int cupo, double tiempo, double costo, int tipoAtraccion) {
-		super();
+	private double tiempo;
+	private int cupo;
+	private int tipoId;
+	private tipo tipo;
+
+public Atraccion(int id, String nombre, double costo, double tiempo, int cupo, int tipoId) {
+		
+		this.id = id;
 		this.nombre = nombre;
-		this.cupo = cupo;
-		this.tiempo = tiempo;
 		this.costo = costo;
-		this.tipoAtraccion = tipoAtraccion;
+		this.tiempo = tiempo;
+		this.cupo = cupo;
+		this.tipoId = tipoId;
+		
 	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
+	
+public Atraccion(int id, String nombre, double costo, double tiempo, int cupo, tipo tipo) {
+		
+		this.id = id;
 		this.nombre = nombre;
-	}
-
-	public int getCupo() {
-		return cupo;
-	}
-
-	public void setCupo(int cupo) {
-		this.cupo = cupo;
-	}
-
-	public double getTiempo() {
-		return tiempo;
-	}
-
-	public void setTiempo(double tiempo) {
-		this.tiempo = tiempo;
-	}
-
-	public double getCosto() {
-		return costo;
-	}
-
-	public void setCosto(double costo) {
 		this.costo = costo;
+		this.tiempo = tiempo;
+		this.cupo = cupo;
+		this.tipo = tipo;
 	}
 
-	public int getTipoAtraccion() {
-		return tipoAtraccion;
-	}
-
-	public void setTipoAtraccion(int tipoAtraccion) {
-		this.tipoAtraccion = tipoAtraccion;
-	}
+public Atraccion(String nombre, double costo, double tiempo, int cupo, int tipoId) {
 	
 	
-	
-	
+	this.nombre = nombre;
+	this.costo = costo;
+	this.tiempo = tiempo;
+	this.cupo = cupo;
+	this.tipoId = tipoId;
 	
 }
 
+
+
+
+
+	public int getId() {
+	return this.id;
+}
+
+public String getNombre() {
+	return this.nombre;
+}
+
+public double getCosto() {
+	return this.costo;
+}
+
+public double getTiempo() {
+	return this.tiempo;
+}
+
+public int getCupo() {
+	return this.cupo;
+}
+
+public int getTipoId() {
+	return this.tipoId;
+}
+
+public tipo getTipo() {
+	return this.tipo;
+}
+
+	@Override
+	public String toString() {
+
+		if (this.tipo != null) {
+			return "||ID = " + this.getId() + "  NOMBRE = " + this.getNombre() + " COSTO = " + this.getCosto() + " TIEMPO = "
+					+ this.getTiempo() + " CUPO = " + this.getCupo() + " TIPO TIPO = " + this.getTipo();
+
+		}
+		return "||ID = " + this.getId() + "  NOMBRE = " + this.getNombre() + " COSTO = " +this. getCosto() + " TIEMPO = " + this.getTiempo()
+				+ " CUPO = " + this.getCupo() + " TIPO ID = " + this.getTipoId();
+	}
+
+	@Override
+	protected void restarCupo() {
+		super.cupo-=1;
+		
+	}
+
+	@Override
+	protected boolean esPromo() {
+		
+		return false;
+	}
+
+	@Override
+	public boolean contiene(Producto producto) {
+		if (producto.esPromo()) {
+			return producto.contiene(this);
+		}
+		return this.equals(producto);
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(costo, cupo, nombre, tiempo, tipo);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Atraccion other = (Atraccion) obj;
+		return Double.doubleToLongBits(costo) == Double.doubleToLongBits(other.costo) && cupo == other.cupo
+				&& Objects.equals(nombre, other.nombre)
+				&& Double.doubleToLongBits(tiempo) == Double.doubleToLongBits(other.tiempo)
+				&& tipo == other.tipo;
+	}
+
+
+	
+}

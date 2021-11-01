@@ -1,102 +1,71 @@
 package model;
 
-
-
-import java.util.ArrayList;
-import java.util.Collections;
-
-
-
 public class Usuario {
+
+	private int id;
 	private String nombre;
 	private double presupuesto;
-	private double tiempoDisponible;
-	private int preferencia;
-	protected ArrayList<Producto> itinerario;
+	private double tiempo_disponible;
+	private int tipo_preferencia_id;
+	private tipo tipo_preferencia;
 	
-	public double gastoTotal() {
-		
-		double GastoTotalDelUsuario = 0;
-		
-		for (int i = 0; i < this.getItinerario().size(); i++) {
-			
-			double gasto = 0;
-			gasto +=this.getItinerario().get(i).getCosto();
-			GastoTotalDelUsuario += gasto;
-			gasto = 0;
-		}
-		return GastoTotalDelUsuario;
-	}
-	
-	public double gastoTotalTiempo() {
-		double TiempoGastadoDelUsuario = 0;
-		
-		for (int i = 0; i < this.getItinerario().size(); i++) {
-			
-			double gasto = 0;
-			gasto += this.getItinerario().get(i).getTiempo();
-			TiempoGastadoDelUsuario += gasto;
-			gasto = 0;
-		}
-		
-		return TiempoGastadoDelUsuario;
-		
-	}
-
-	public Usuario(String nombre, int preferencia, double presupuesto, double tiempoDisponible) {
+	public Usuario(String nombre, double presupuesto, double tiempo_disponible, int tipo_preferencia_id) {
 		this.nombre = nombre;
 		this.presupuesto = presupuesto;
-		this.tiempoDisponible = tiempoDisponible;
-		this.preferencia = preferencia;
+		this.tiempo_disponible = tiempo_disponible;
+		this.tipo_preferencia_id = tipo_preferencia_id;
+	    
 	}
-	
-	public void crearItinerario() {
-		this.itinerario = new ArrayList<Producto>();
+
+	public Usuario(int id, String nombre, double presupuesto, double tiempo_disponible, tipo tipo_preferencia) {
+		this.id = id;
+		this.nombre = nombre;
+		this.presupuesto = presupuesto;
+		this.tiempo_disponible = tiempo_disponible;
+		this.tipo_preferencia = tipo_preferencia;
 	}
-	
-	public void agregarProducto(Producto producto) {
-		itinerario.add(producto);
-		restarPresupuesto(producto.getCosto());
-		restarTiempo(producto.getTiempo());
+
+	public Usuario(int id, String nombre, double presupuesto, double tiempo_disponible, int tipo_preferencia_id) {
+		this.id = id;
+		this.nombre = nombre;
+		this.presupuesto = presupuesto;
+		this.tiempo_disponible = tiempo_disponible;
+		this.tipo_preferencia_id = tipo_preferencia_id;
 	}
-	
-	public void restarTiempo(double tiempoDelProducto) {
-		this.tiempoDisponible-=tiempoDelProducto;
-	}
-	
-	public void restarPresupuesto(double costoDelProducto) {
-		 this.presupuesto-=costoDelProducto;
-	}
+
 	public String toString() {
-		return this.nombre + " prefiere las atracciones del tipo " + this.preferencia + ", tiene " + this.presupuesto + " monedas disponibles y cuenta con " + this.tiempoDisponible + " horas disponibles";
+		if (this.tipo_preferencia != null) {
+			return "| ID = " + this.id + " NOMBRE = " + this.nombre + " TIPO PREFERENCIA =" + this.tipo_preferencia
+					+ " PRESUPUESTO = " + this.presupuesto + " TIEMPO DISPONIBLE = " + this.tiempo_disponible;
+		}
+
+		return " | ID = " + this.id + " NOMBRE = " + this.nombre + " ID PREFERENCIA =" + this.tipo_preferencia_id
+				+ " PRESUPUESTO = " + this.presupuesto + " TIEMPO DISPONIBLE = " + this.tiempo_disponible;
 	}
-	
+
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
 
 	public double getPresupuesto() {
-		return presupuesto;
+		return this.presupuesto;
 	}
 
 	public double getTiempoDisponible() {
-		return tiempoDisponible;
+		return this.tiempo_disponible;
 	}
 
-	public int getPreferencia() {
-		return this.preferencia;
+	public Integer getTipo_preferencia_id() {
+		return this.tipo_preferencia_id;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public tipo getTipo_preferencia() {
+		return tipo_preferencia;
 	}
 	
-	public ArrayList<Producto> getItinerario() {
-		return itinerario;
-	}
-
-	public void setItinerario(ArrayList<Producto> itinerario) {
-		this.itinerario = itinerario;
-	}
-
-	public static ArrayList<Producto> listaDePreferencias(ArrayList<Producto> productos, int preferencia) {
-		Collections.sort(productos, new Ofertable(preferencia));
-		return productos;
-	}
+	
 }
