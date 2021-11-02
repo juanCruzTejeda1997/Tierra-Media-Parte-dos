@@ -1,11 +1,13 @@
 package dao;
 
-public interface UserDAO  extends GenericDAO<Usuario>{
+import java.util.LinkedList;
 
-	public abstract Usuario findByUsername(String usuario);
+import model.Usuario;
+
+public interface  UserDAO extends GenericDAO<Usuario> {
 	
+	public Usuario findByUsername(String usuario);
 	
-	
-	
-	
+	public  LinkedList<Usuario> getUsuaries();
+
 }
