@@ -12,7 +12,7 @@ import model.Atraccion;
 import model.Usuario;
 import model.tipo;
 
-public class AtraccionDAOImpl {
+public class AtraccionDAOImpl implements AtraccionDAO {
 	
 	public int insert(Atraccion atraccion) {
 		
@@ -35,16 +35,20 @@ public class AtraccionDAOImpl {
 		}
 	}
 	
-	public int update(Atraccion atraccion) throws SQLException {
-		String sql = "UPDATE ATRACCION SET CUPO = ? WHERE NOMBRE = ?";
-		Connection conn = ConnectionProvider.getConnection();
-
-		PreparedStatement statement = conn.prepareStatement(sql);
-		statement.setInt(1, atraccion.getCupo());
-		statement.setString(2, atraccion.getNombre());
-		int rows = statement.executeUpdate();
-
-		return rows;
+	public int update(Atraccion atraccion) {
+		try {
+			String sql = "UPDATE ATRACCION SET CUPO = ? WHERE NOMBRE = ?";
+			Connection conn = ConnectionProvider.getConnection();
+	
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setInt(1, atraccion.getCupo());
+			statement.setString(2, atraccion.getNombre());
+			int rows = statement.executeUpdate();
+	
+			return rows;
+		}catch(Exception e) {
+			throw new MissingDataException(e);
+	}
 	}
 
 	public int buscarIdAtraccion(Atraccion atraccion) {

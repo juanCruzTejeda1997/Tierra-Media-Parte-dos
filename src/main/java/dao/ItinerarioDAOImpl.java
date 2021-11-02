@@ -19,7 +19,7 @@ import model.tipo;
 
 
 
-public class ItinerarioDAOImpl {
+public class ItinerarioDAOImpl implements ItinerarioDAO {
 	
 	UserDAOImpl userImpl = new UserDAOImpl();
 	AtraccionDAOImpl atrImpl = new AtraccionDAOImpl();
@@ -80,9 +80,10 @@ public class ItinerarioDAOImpl {
 
 	public LinkedList<Itinerario> buscarItinerarioPorUsuario(String nombre) {
 		try {
-			String sql = "SELECT * FROM ITINERARIO WHERE EXISTS (SELECT usuario.id FROM USUARIO WHERE (itinerario.usuario_id = usuario.id AND usuario.nombre = nombre))";
+			String sql = "SELECT * FROM ITINERARIO WHERE itinerario.usuario_id = (SELECT usuario.id FROM USUARIO WHERE usuario.nombre = ?)";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, nombre);			
 			ResultSet resultados = statement.executeQuery();
 			LinkedList<Itinerario> itinerario = new LinkedList<Itinerario>();
 			LinkedList<Usuario> usuarios = userImpl.getUsuaries();
@@ -147,9 +148,11 @@ public class ItinerarioDAOImpl {
 			}
 			
 			return itinerario;
-		} catch (Exception e) {
+			
+		}catch(Exception e) {
 			throw new MissingDataException(e);
 		}
+		
 	}
 
 	private Itinerario toItinerario(ResultSet resultados) throws SQLException {
@@ -173,7 +176,7 @@ public class ItinerarioDAOImpl {
 		return tiempo;
 	}
 	
-	public void mostrarItinerario(String nombre) {
+	public void mostrarItinerario(String nombre) throws SQLException {
 		LinkedList<Itinerario> it = buscarItinerarioPorUsuario(nombre);
 		System.out.println(
 				"ITINERARIO: \n"
@@ -181,6 +184,36 @@ public class ItinerarioDAOImpl {
 						+ "Productos = " + it + "\n"
 						+ "Gasto Total = " + calcularCostoTotal(it) + " monedas \n"
 						+ "Tiempo Total = " + calcularTiempoTotal(it) + " horas");
+	}
+
+	public List<Itinerario> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int countAll() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int insert(Itinerario t) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int update(Itinerario t) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int delete(Itinerario t) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public Itinerario buscarItinerarioPorNombre(String nombre) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 
