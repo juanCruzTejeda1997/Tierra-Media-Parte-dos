@@ -65,7 +65,26 @@ public class PromocionAbsoluta extends Promocion {
 		return true;
 	}
 
+public int getCupo() {
+	return super.atraccion1.getCupo()+super.atraccion2.getCupo();
+	
+	
+}
 
+@Override
+public int hashCode() {
+	return super.hashCode();
+}
 
+@Override
+public boolean equals(Object obj) {
+	if (this == obj)
+		return true;
+	if (!super.equals(obj))
+		return false;
+	if (getClass() != obj.getClass())
+		return false;
+	return true;
+}
 
 }

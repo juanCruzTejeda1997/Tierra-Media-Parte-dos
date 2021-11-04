@@ -1,7 +1,6 @@
 package model;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 
 public abstract class Promocion extends Producto {
@@ -149,28 +148,79 @@ private void validarPromocion(Atraccion atraccion1, Atraccion atraccion2) {
 		
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + Arrays.hashCode(atracciones);
-		result = prime * result + Objects.hash(atraccion1, atraccion2, nombre, tipo);
-		return result;
-	}
+@Override
+public int hashCode() {
+	final int prime = 31;
+	int result = super.hashCode();
+	result = prime * result + ((atraccion1 == null) ? 0 : atraccion1.hashCode());
+	result = prime * result + atraccion1_id;
+	result = prime * result + ((atraccion2 == null) ? 0 : atraccion2.hashCode());
+	result = prime * result + atraccion2_id;
+	result = prime * result + ((atraccion_gratis == null) ? 0 : atraccion_gratis.hashCode());
+	result = prime * result + Arrays.hashCode(atracciones);
+	long temp;
+	temp = Double.doubleToLongBits(costo);
+	result = prime * result + (int) (temp ^ (temp >>> 32));
+	result = prime * result + cupo;
+	result = prime * result + id;
+	result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+	temp = Double.doubleToLongBits(tiempo);
+	result = prime * result + (int) (temp ^ (temp >>> 32));
+	result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
+	result = prime * result + tipo_id;
+	return result;
+}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
+@Override
+public boolean equals(Object obj) {
+	if (this == obj)
+		return true;
+	if (!super.equals(obj))
+		return false;
+	if (getClass() != obj.getClass())
+		return false;
+	Promocion other = (Promocion) obj;
+	if (atraccion1 == null) {
+		if (other.atraccion1 != null)
 			return false;
-		if (getClass() != obj.getClass())
+	} else if (!atraccion1.equals(other.atraccion1))
+		return false;
+	if (atraccion1_id != other.atraccion1_id)
+		return false;
+	if (atraccion2 == null) {
+		if (other.atraccion2 != null)
 			return false;
-		Promocion other = (Promocion) obj;
-		return Objects.equals(atraccion1, other.atraccion1) && Objects.equals(atraccion2, other.atraccion2)
-				&& Arrays.equals(atracciones, other.atracciones) && Objects.equals(nombre, other.nombre)
-				&& tipo == other.tipo;
-	}
+	} else if (!atraccion2.equals(other.atraccion2))
+		return false;
+	if (atraccion2_id != other.atraccion2_id)
+		return false;
+	if (atraccion_gratis == null) {
+		if (other.atraccion_gratis != null)
+			return false;
+	} else if (!atraccion_gratis.equals(other.atraccion_gratis))
+		return false;
+	if (!Arrays.equals(atracciones, other.atracciones))
+		return false;
+	if (Double.doubleToLongBits(costo) != Double.doubleToLongBits(other.costo))
+		return false;
+	if (cupo != other.cupo)
+		return false;
+	if (id != other.id)
+		return false;
+	if (nombre == null) {
+		if (other.nombre != null)
+			return false;
+	} else if (!nombre.equals(other.nombre))
+		return false;
+	if (Double.doubleToLongBits(tiempo) != Double.doubleToLongBits(other.tiempo))
+		return false;
+	if (tipo != other.tipo)
+		return false;
+	if (tipo_id != other.tipo_id)
+		return false;
+	return true;
+}
+
 
 
 }

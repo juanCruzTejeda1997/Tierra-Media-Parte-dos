@@ -10,6 +10,8 @@ import java.util.LinkedList;
 import jdbc.ConnectionProvider;
 import model.Atraccion;
 import model.tipo;
+import verificador.verificadorAtraccion;
+
 
 public class AtraccionDAOImpl implements AtraccionDAO {
 
@@ -115,5 +117,49 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public void restarCupo(int id) throws SQLException {
+ 
+		verificadorAtraccion v = new verificadorAtraccion();
+	while(v.hayCupo(id)) {
+		
+		String sql = "UPDATE Atraccion\r\n"
+				+ "SET CUPO = CUPO-1\r\n"
+				+ "WHERE Atraccion.Id = ?";
+
+	Connection conn;
+		try {
+			conn = ConnectionProvider.getConnection();
+			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setInt(1,id);
+			preparedStatement.executeUpdate();
+		} catch (SQLException e){
+			e.printStackTrace();
+	    	}
+	
+     	}
+	}
+	
+
+	public int buscarIdAtraccion(Atraccion atraccion) {
+		try {
+			String sql= "SELECT id FROM atraccion WHERE nombre = ?";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setString(1, atraccion.getNombre());
+			
+			ResultSet resultados = statement.executeQuery();
+			
+			int idAtraccion = resultados.getInt(1);
+			
+			return idAtraccion;
+		}catch(Exception e) {
+				throw new MissingDataException(e);
+		}
+			
+	}
+
+
 
 }

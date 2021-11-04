@@ -1,6 +1,6 @@
 package model;
 
-import java.util.Objects;
+
 
 
 
@@ -82,17 +82,17 @@ public tipo getTipo() {
 	public String toString() {
 
 		if (this.tipo != null) {
-			return "||ID = " + super.getId() + "  NOMBRE = " + super.getNombre() + " COSTO = " + super.getCosto() + " TIEMPO = "
-					+ super.getTiempo() + " CUPO = " + super.getCupo() + " TIPO TIPO = " + super.getTipo();
+			return "||ID = " + this.getId() + "  NOMBRE = " + this.getNombre() + " COSTO = " + this.getCosto() + " TIEMPO = "
+					+ this.getTiempo() + " CUPO = " + this.getCupo() + " TIPO TIPO = " + this.getTipo();
 
 		}
-		return "||ID = " + super.getId() + "  NOMBRE = " + super.getNombre() + " COSTO = " +super. getCosto() + " TIEMPO = " + super.getTiempo()
-				+ " CUPO = " + super.getCupo() + " TIPO ID = " + super.getTipoId();
+		return "||ID = " + this.getId() + "  NOMBRE = " + this.getNombre() + " COSTO = " +this. getCosto() + " TIEMPO = " + this.getTiempo()
+				+ " CUPO = " + this.getCupo() + " TIPO ID = " + this.getTipoId();
 	}
 
 	@Override
-	protected void restarCupo() {
-		super.cupo-=1;
+	public void restarCupo() {
+		 this.cupo-=1;
 		
 	}
 
@@ -109,12 +109,21 @@ public tipo getTipo() {
 		}
 		return this.equals(producto);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + Objects.hash(costo, cupo, nombre, tiempo, tipo);
+		long temp;
+		temp = Double.doubleToLongBits(costo);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + cupo;
+		result = prime * result + id;
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		temp = Double.doubleToLongBits(tiempo);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
+		result = prime * result + tipoId;
 		return result;
 	}
 
@@ -127,12 +136,27 @@ public tipo getTipo() {
 		if (getClass() != obj.getClass())
 			return false;
 		Atraccion other = (Atraccion) obj;
-		return Double.doubleToLongBits(costo) == Double.doubleToLongBits(other.costo) && cupo == other.cupo
-				&& Objects.equals(nombre, other.nombre)
-				&& Double.doubleToLongBits(tiempo) == Double.doubleToLongBits(other.tiempo)
-				&& tipo == other.tipo;
+		if (Double.doubleToLongBits(costo) != Double.doubleToLongBits(other.costo))
+			return false;
+		if (cupo != other.cupo)
+			return false;
+		if (id != other.id)
+			return false;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		if (Double.doubleToLongBits(tiempo) != Double.doubleToLongBits(other.tiempo))
+			return false;
+		if (tipo != other.tipo)
+			return false;
+		if (tipoId != other.tipoId)
+			return false;
+		return true;
 	}
-
+	
+	
 
 	
 }

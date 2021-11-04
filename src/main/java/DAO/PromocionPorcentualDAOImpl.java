@@ -17,7 +17,7 @@ import model.tipo;
 import model.Atraccion;
 
 public class PromocionPorcentualDAOImpl implements PromocionPorcentualDAO {
-	public int insert(PromocionPorcentual promocion) {
+	public int insertPromocionPorcentual(PromocionPorcentual promocion) {
 		try {
 			String sql = "INSERT INTO Promocion_Porcentual (nombre, atraccion1_id, atraccion2_id, tiempo, descuento, costo, tipo_id, cupo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -39,23 +39,42 @@ public class PromocionPorcentualDAOImpl implements PromocionPorcentualDAO {
 			throw new MissingDataException(e);
 		}
 	}
-
-	public List<PromocionPorcentual> findAll() {
+	
+	public int buscarIdPromoPorcentual(PromocionPorcentual promocion) {
 		try {
-			String sql = "SELECT * FROM Promocion_Porcentual ";
+			String sql= "SELECT id FROM Promocion_Porcentual WHERE nombre = ?";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setString(1, promocion.getNombre());
+			
 			ResultSet resultados = statement.executeQuery();
-
-			LinkedList<PromocionPorcentual> promociones = new LinkedList<PromocionPorcentual>();
-			while (resultados.next()) {
-				promociones.add(toPromocion(resultados));
-			}
-
-			return promociones;
-		} catch (Exception e) {
-			throw new MissingDataException(e);
+			
+			int idPromoPorcentual = resultados.getInt(1);
+			
+			return idPromoPorcentual;
+		}catch(Exception e) {
+				throw new MissingDataException(e);
 		}
+			
+	}
+	
+	public LinkedList<PromocionPorcentual> findAllPromocionesPorcentuales() {
+			try {
+				String sql = "SELECT * FROM Promocion_Porcentual ";
+				Connection conn = ConnectionProvider.getConnection();
+				PreparedStatement statement = conn.prepareStatement(sql);
+				ResultSet resultados = statement.executeQuery();
+
+				LinkedList<PromocionPorcentual> promociones = new LinkedList<PromocionPorcentual>();
+				while (resultados.next()) {
+					promociones.add(toPromocion(resultados));
+				}
+
+				return promociones;
+			} catch (Exception e) {
+				throw new MissingDataException(e);
+			}
 	}
 
 	public LinkedList<PromocionPorcentual> getPromocionesPorcentuales() {
@@ -90,20 +109,16 @@ public class PromocionPorcentualDAOImpl implements PromocionPorcentualDAO {
 				} else if (tipo_id.equals(3)) {
 					tipo = model.tipo.PAISAJE;
 				}
+				
 				for (int i = 0; i < ListaDeAtracciones.size(); i++) {
 					if (atraccion1_id.equals(ListaDeAtracciones.get(i).getId())) {
 						atraccion1 = ListaDeAtracciones.get(i);
-
 					}
 					if (atraccion2_id.equals(ListaDeAtracciones.get(i).getId())) {
 						atraccion2 = ListaDeAtracciones.get(i);
 						tipo = ListaDeAtracciones.get(i).getTipo();
 					}
-					
-				
-
 				}
-				
 
 				PromocionPorcentual p = new PromocionPorcentual(id, nombre, atraccion1, atraccion2, tiempo, descuento,
 						costo, tipo, cupo);
@@ -114,11 +129,12 @@ public class PromocionPorcentualDAOImpl implements PromocionPorcentualDAO {
 			}
 
 			return promoP;
+			
 		} catch (Exception e) {
 			throw new MissingDataException(e);
 		}
 	}
-
+	
 	private PromocionPorcentual toPromocion(ResultSet resultados) throws SQLException {
 		return new PromocionPorcentual(resultados.getInt(1), resultados.getString(2), resultados.getInt(3),
 				resultados.getInt(4), resultados.getDouble(5), resultados.getDouble(6), resultados.getDouble(7),
@@ -142,4 +158,18 @@ public class PromocionPorcentualDAOImpl implements PromocionPorcentualDAO {
 		return 0;
 	}
 
+	public List<PromocionPorcentual> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int insert(PromocionPorcentual t) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void restarCupoPromocion(int t) {
+		// TODO Auto-generated method stub
+		
+	}
 }

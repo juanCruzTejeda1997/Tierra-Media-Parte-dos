@@ -1,10 +1,22 @@
 package model;
 
+import java.util.ArrayList;
+
 public class PromocionPorcentual extends Promocion {
 
 	private double descuento;
-
+    
+	private ArrayList<Atraccion> atraccionesPromocion = new ArrayList<Atraccion>();
+	
 	private static int id;
+	
+	
+	
+	public PromocionPorcentual(int id, String nombre, int atraccion1_id, int atraccion2_id, double tiempo, double costo,
+			int tipo_id, int cupo, ArrayList<Atraccion> atraccionesPromocion) {
+		super(id, nombre, atraccion1_id, atraccion2_id, tiempo, costo, tipo_id, cupo);
+		this.atraccionesPromocion = atraccionesPromocion;
+	}
 
 	public PromocionPorcentual(int id, String nombre, int atraccion1_id, int atraccion2_id, double tiempo,
 			double descuento, double costo, int tipo_id, int cupo) {
@@ -69,6 +81,10 @@ public int calcularCupo() {
 		
 	}
 	
+	public int getCupo() {
+		 return super.atraccion1.getCupo()+super.atraccion2.getCupo();
+	}
+	
 	public void verificarCupos() throws Exception {
 		if(this.atraccion1.tieneCupo()&& this.atraccion2.tieneCupo()) {
 			cupo = this.atraccion1.getCupo()+this.atraccion2.getCupo();
@@ -86,6 +102,44 @@ public int calcularCupo() {
 	
 	public void setCupo(int cupo) {
 		this.cupo-=cupo;
+	}
+
+	public ArrayList<Atraccion> getAtraccionesPromocion() {
+		return atraccionesPromocion;
+	}
+
+	public void setAtraccionesPromocion(ArrayList<Atraccion> atraccionesPromocion) {
+		this.atraccionesPromocion = atraccionesPromocion;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((atraccionesPromocion == null) ? 0 : atraccionesPromocion.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(descuento);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PromocionPorcentual other = (PromocionPorcentual) obj;
+		if (atraccionesPromocion == null) {
+			if (other.atraccionesPromocion != null)
+				return false;
+		} else if (!atraccionesPromocion.equals(other.atraccionesPromocion))
+			return false;
+		if (Double.doubleToLongBits(descuento) != Double.doubleToLongBits(other.descuento))
+			return false;
+		return true;
 	}
 
 	

@@ -41,7 +41,8 @@ public class PromocionAxB extends Promocion {
 	
 	@Override
 	public int getCupo() {
-		return cupo;
+		return super.atraccion1.getCupo()+super.atraccion2.getCupo()+atraccion_gratis.getCupo();
+		
 	}
 	
 	public void setCupo(int cupo) {

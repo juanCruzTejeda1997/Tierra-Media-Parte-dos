@@ -65,6 +65,28 @@ public int insert(PromocionAbsoluta promocion) {
 		
 	}
 	
+	
+	public int buscarIdPromoAbsoluta(PromocionAbsoluta promocion) {
+		try {
+			String sql= "SELECT id FROM Promocion_Absoluta WHERE nombre = ?";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setString(1, promocion.getNombre());
+			
+			ResultSet resultados = statement.executeQuery();
+			
+			int idPromoAbsoluta = resultados.getInt(1);
+			
+			return idPromoAbsoluta;
+		}catch(Exception e) {
+				throw new MissingDataException(e);
+		}
+			
+	}
+	
+	
+	
 	public LinkedList<PromocionAbsoluta> getPromocionesAbsolutas(){
 		try {
 		String sql = "SELECT * FROM Promocion_Absoluta";
@@ -126,7 +148,38 @@ public int insert(PromocionAbsoluta promocion) {
 			throw new MissingDataException(e);
 		}
 	}
+	
+	
 
+	public void restarCupoPromocion (int id) {
+		
+		String sql = "SELECT atraccion1_id, atraccion2_id, atraccion_gratis_id\r\n"
+				+ "FROM PromocionAxB\r\n"
+				+ "WHERE id = ?"; 
+				
+				
+
+	Connection conn;
+		try {
+			conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setInt(1, id);
+			ResultSet resultados = statement.executeQuery();
+			
+			while (resultados.next()) {
+			int idAtraccion1 = resultados.getInt(1);
+			int idAtraccion2 = resultados.getInt(2);
+		    int idAtraccion3 = resultados.getInt(3);
+			AtraccionDAO atrcc = DAOFactory.getAtraccionDAO();
+			atrcc.restarCupo(idAtraccion1);
+            atrcc.restarCupo(idAtraccion2);	
+			atrcc.restarCupo(idAtraccion3);
+			}
+		} catch (Exception e){
+			throw new MissingDataException(e);
+			
+		}
+}
 	public int countAll() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -141,5 +194,7 @@ public int insert(PromocionAbsoluta promocion) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+
 	
 }

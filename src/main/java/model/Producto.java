@@ -1,7 +1,7 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Objects;
+
 
 
 
@@ -27,7 +27,7 @@ public abstract class Producto {
 		this.nombre = nombre;
 	}
 	
-	protected abstract void restarCupo() ;
+	public abstract void restarCupo() ;
 
 	protected abstract boolean esPromo();
 	
@@ -38,25 +38,6 @@ public abstract class Producto {
 
 	public abstract boolean contiene(Producto producto);
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(costo, nombre, productos, tiempo, tipo, tipoId);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Producto other = (Producto) obj;
-		return Double.doubleToLongBits(costo) == Double.doubleToLongBits(other.costo)
-				&& Objects.equals(nombre, other.nombre) && Objects.equals(productos, other.productos)
-				&& Double.doubleToLongBits(tiempo) == Double.doubleToLongBits(other.tiempo)
-				&& tipo == other.tipo;
-	}
 
 
 	public ArrayList<Producto> getProductos() {
@@ -100,7 +81,7 @@ public abstract class Producto {
 	}
 
 	public int getCupo() {
-		return cupo;
+		return this.cupo;
 	}
 
 	public void setCupo(int cupo) {
@@ -122,6 +103,68 @@ public abstract class Producto {
 	public void setTipo(tipo tipo) {
 		this.tipo = tipo;
 	}
+
+
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(costo);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + cupo;
+		result = prime * result + id;
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + ((productos == null) ? 0 : productos.hashCode());
+		temp = Double.doubleToLongBits(tiempo);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
+		result = prime * result + tipoId;
+		return result;
+	}
+
+
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Producto other = (Producto) obj;
+		if (Double.doubleToLongBits(costo) != Double.doubleToLongBits(other.costo))
+			return false;
+		if (cupo != other.cupo)
+			return false;
+		if (id != other.id)
+			return false;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		if (productos == null) {
+			if (other.productos != null)
+				return false;
+		} else if (!productos.equals(other.productos))
+			return false;
+		if (Double.doubleToLongBits(tiempo) != Double.doubleToLongBits(other.tiempo))
+			return false;
+		if (tipo != other.tipo)
+			return false;
+		if (tipoId != other.tipoId)
+			return false;
+		return true;
+	}
+	
+	
 
 		
 

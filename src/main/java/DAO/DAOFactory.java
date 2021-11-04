@@ -24,6 +24,8 @@ public class DAOFactory {
 		 public static PromocionAbsolutaDAOImpl getPromocionesAbsolutas() {
 			 return new PromocionAbsolutaDAOImpl();
 		 }
-	
+		 public static ItinerarioDAOImpl getItinerario() {
+			 return new ItinerarioDAOImpl();
+		 }
 
 }
