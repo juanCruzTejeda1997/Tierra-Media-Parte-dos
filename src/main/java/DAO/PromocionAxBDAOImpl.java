@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
+
 
 import jdbc.ConnectionProvider;
 import model.Atraccion;
@@ -17,7 +17,7 @@ import model.tipo;
 
 public class PromocionAxBDAOImpl implements PromocionAxBDAO {
 	
-	public int insertPromocionAxB(PromocionAxB promocion) {
+	public int insert(PromocionAxB promocion) {
 		
 		try {
 			String sql = "INSERT INTO PromocionAxB (nombre, atraccion1_id, atraccion2_id, atraccion_gratis_id, tiempo, costo, tipo_id, cupo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -32,7 +32,7 @@ public class PromocionAxBDAOImpl implements PromocionAxBDAO {
 			statement.setDouble(5, promocion.getTiempo());
 			statement.setDouble(6, promocion.getCosto());
 			statement.setInt(7, promocion.getTipo_id());
-			statement.setInt(8, promocion.getCupo());
+			statement.setInt(8, promocion.dbgetCupo());
 			int rows = statement.executeUpdate();
 
 			return rows;
@@ -61,7 +61,7 @@ public class PromocionAxBDAOImpl implements PromocionAxBDAO {
 	}
 	
 
-	public LinkedList<PromocionAxB> findAllPromocionesAxB() {
+	public LinkedList<PromocionAxB> findAll() {
 		try {
 			String sql = "SELECT * FROM PromocionAxB ";
 			Connection conn = ConnectionProvider.getConnection();
@@ -131,7 +131,7 @@ public class PromocionAxBDAOImpl implements PromocionAxBDAO {
 				PromocionAxB p = new PromocionAxB(id, nombre, atraccion1, atraccion2,atraccion_gratis, tiempo,costo, tipo, cupo);
 				
 				PromocionAxB d = new PromocionAxB(id, nombre, atraccion1, atraccion2,atraccion_gratis, p.calcularTiempo(), p.calcularCosto(),
-						tipo, p.calcularCupo());
+						tipo, p.getCupo());
 				promoP.add(d);
 			}
 			
@@ -164,14 +164,7 @@ public class PromocionAxBDAOImpl implements PromocionAxBDAO {
 		return 0;
 	}
 
-	public List<PromocionAxB> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	public int insert(PromocionAxB t) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+
 		
 }

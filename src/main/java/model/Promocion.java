@@ -9,8 +9,8 @@ public abstract class Promocion extends Producto {
 	private String nombre;
 	private int atraccion1_id;
 	private int atraccion2_id;
-	private double tiempo;
-	private double costo;
+	protected double tiempo;
+	protected double costo;
 	protected int tipo_id;
 	public Atraccion atraccion1;
 	public Atraccion atraccion2;

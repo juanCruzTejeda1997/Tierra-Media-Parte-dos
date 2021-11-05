@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
+
 
 import jdbc.ConnectionProvider;
 
@@ -17,7 +17,7 @@ import model.tipo;
 import model.Atraccion;
 
 public class PromocionPorcentualDAOImpl implements PromocionPorcentualDAO {
-	public int insertPromocionPorcentual(PromocionPorcentual promocion) {
+	public int insert(PromocionPorcentual promocion) {
 		try {
 			String sql = "INSERT INTO Promocion_Porcentual (nombre, atraccion1_id, atraccion2_id, tiempo, descuento, costo, tipo_id, cupo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -31,7 +31,7 @@ public class PromocionPorcentualDAOImpl implements PromocionPorcentualDAO {
 			statement.setDouble(5, promocion.getDescuento());
 			statement.setDouble(6, promocion.getCosto());
 			statement.setInt(7, promocion.getTipo_id());
-			statement.setInt(8, promocion.getCupo());
+			statement.setInt(8, promocion.dbgetCupo());
 			int rows = statement.executeUpdate();
 
 			return rows;
@@ -59,7 +59,7 @@ public class PromocionPorcentualDAOImpl implements PromocionPorcentualDAO {
 			
 	}
 	
-	public LinkedList<PromocionPorcentual> findAllPromocionesPorcentuales() {
+	public LinkedList<PromocionPorcentual> findAll() {
 			try {
 				String sql = "SELECT * FROM Promocion_Porcentual ";
 				Connection conn = ConnectionProvider.getConnection();
@@ -124,7 +124,7 @@ public class PromocionPorcentualDAOImpl implements PromocionPorcentualDAO {
 						costo, tipo, cupo);
 				
 				PromocionPorcentual d = new PromocionPorcentual(id, nombre, atraccion1, atraccion2, p.calcularTiempo(), descuento, p.calcularCosto(),
-						tipo, p.calcularCupo());
+						tipo, p.getCupo());
 				promoP.add(d);
 			}
 
@@ -158,15 +158,8 @@ public class PromocionPorcentualDAOImpl implements PromocionPorcentualDAO {
 		return 0;
 	}
 
-	public List<PromocionPorcentual> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
-	public int insert(PromocionPorcentual t) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	public void restarCupoPromocion(int t) {
 		// TODO Auto-generated method stub

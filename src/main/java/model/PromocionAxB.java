@@ -1,7 +1,5 @@
 package model;
 
-
-
 public class PromocionAxB extends Promocion {
 
 	private int atraccion_gratis_id;
@@ -24,44 +22,52 @@ public class PromocionAxB extends Promocion {
 		super(id, nombre, atraccion1, atraccion2, tiempo, costo, tipo, cupo);
 		this.atraccion_gratis = atraccion_gratis;
 	}
-	
+
 	public PromocionAxB(String nombre, Atraccion atraccion1, Atraccion atraccion2, Atraccion atraccion_gratis) {
 		super(nombre, atraccion1, atraccion2);
-		validarPromocionAxB(atraccion1,atraccion_gratis);
+		validarPromocionAxB(atraccion1, atraccion_gratis);
 	}
-	
-	
+
 	public int getAtraccion_gratis_id() {
-		return atraccion_gratis_id;
+		return this.atraccion_gratis_id;
 	}
 
 	public Atraccion getAtraccion_gratis() {
-		return atraccion_gratis;
+		return this.atraccion_gratis;
 	}
-	
-	@Override
-	public int getCupo() {
-		return super.atraccion1.getCupo()+super.atraccion2.getCupo()+atraccion_gratis.getCupo();
-		
-	}
-	
+
+
+
 	public void setCupo(int cupo) {
-		this.cupo-=cupo;
+		this.cupo -= cupo;
 	}
 
- public double calcularCosto() {
-	 return atraccion1.getCosto() + atraccion2.getCosto();
- }
-	
-public double calcularTiempo () {
-		
-	return  atraccion1.getTiempo() + atraccion2.getTiempo() + atraccion_gratis.getTiempo();
+
+	public double calcularCosto() {
+		return atraccion1.getCosto() + atraccion2.getCosto();
 	}
 
-public int calcularCupo() {
-	return  Math.min(Math.min(atraccion1.getCupo(),atraccion2.getCupo()),atraccion_gratis.getCupo());
+	public double getTiempo() {
+		return this.tiempo;
+	}
+
+	public double calcularTiempo() {
+
+		return atraccion1.getTiempo() + atraccion2.getTiempo() + atraccion_gratis.getTiempo();
+	}
+
 	
-}
+	public int dbgetCupo() {
+		return this.cupo;
+
+	}
+	
+	public int getCupo() {
+		return Math.min(super.getAtraccion_gratis().getCupo(),
+				(Math.min(super.atraccion1.getCupo(), super.atraccion2.getCupo())));
+
+	}
+
 
 	@Override
 	public String toString() {
@@ -69,12 +75,12 @@ public int calcularCupo() {
 			return "| ID = " + super.getId() + "| NOMBRE = " + super.getNombre() + "| ATRACCION1 NOMBRE = "
 					+ this.getAtraccion1().getNombre() + "| ATRACCION2 NOMBRE =  " + this.getAtraccion2().getNombre()
 					+ "| ATRACCION GRATIS NOMBRE =  " + this.getAtraccion_gratis().getNombre() + "|TIPO TIPO = "
-					+ super.getTipo() + "| COSTO = " + super.getCosto()+ " CUPO =" + super.getCupo();
+					+ super.getTipo() + "| COSTO = " + super.getCosto() + " CUPO =" + super.getCupo();
 		}
 		return "| ID =  " + super.getId() + " | NOMBRE = " + super.getNombre() + "| ATRACCION1 ID = "
 				+ super.getAtraccion1_id() + "| ATRACCION 2 ID = " + super.getAtraccion2_id()
 				+ "| ATRACCION GRATIS ID =  " + this.getAtraccion_gratis_id() + "|TIPO TIPO =  " + super.getTipo_id()
-				+ "| COSTO =" + super.getCosto()+ " CUPO =" + super.getCupo();
+				+ "| COSTO =" + super.getCosto() + " CUPO =" + super.getCupo();
 
 	}
 
@@ -83,24 +89,25 @@ public int calcularCupo() {
 		super.atraccion1.restarCupo();
 		super.atraccion2.restarCupo();
 		super.atraccion_gratis.restarCupo();
-		
+
 	}
 
 	@Override
 	protected boolean esPromo() {
 		return true;
 	}
+
 	private void validarPromocionAxB(Atraccion atraccion1, Atraccion atraccion_gratis) {
 		try {
 			if (atraccion1.getTipo() != atraccion_gratis.getTipo()) {
-				throw new TipoAtraccionException ("La atracción gratis debe ser del mismo tipo que las otras atracciones");
+				throw new TipoAtraccionException(
+						"La atracción gratis debe ser del mismo tipo que las otras atracciones");
 			}
 			this.atraccion_gratis = atraccion_gratis;
+		} catch (TipoAtraccionException tae) {
+			System.err.println(tae.getMessage());
 		}
-		catch (TipoAtraccionException tae){
-            System.err.println(tae.getMessage());
-        }
-	
+
 	}
 
 	@Override
@@ -108,5 +115,4 @@ public int calcularCupo() {
 		return super.contiene(producto) || producto.contiene(atraccion_gratis);
 	}
 
-	
 }

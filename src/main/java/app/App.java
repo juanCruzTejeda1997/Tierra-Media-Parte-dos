@@ -86,6 +86,7 @@ public class App {
 
 		System.out.println("------probamos insertar una promocion porcentual-----");
 		PromocionPorcentualDAO nuevaPorcentual = DAOFactory.getPromocionesPorcentuales();
+		System.out.println(nuevaPorcentual.findAll());
 		System.out.println(nuevaPorcentual.getPromocionesPorcentuales());
 
 		/*

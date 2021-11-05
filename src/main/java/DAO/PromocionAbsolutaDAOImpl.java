@@ -32,7 +32,7 @@ public int insert(PromocionAbsoluta promocion) {
 		statement.setDouble(4, promocion.getTiempo());
 		statement.setDouble(5, promocion.getCosto());
 		statement.setInt(6, promocion.getTipo_id());
-		statement.setInt(7, promocion.getCupo());
+		statement.setInt(7, promocion.dbgetCupo());
 		int rows = statement.executeUpdate();
 
 		return rows;
@@ -139,7 +139,7 @@ public int insert(PromocionAbsoluta promocion) {
 			
 			PromocionAbsoluta p = new PromocionAbsoluta(id, nombre, atraccion1, atraccion2, tiempo, costo, tipo, cupo);
 			
-			PromocionAbsoluta d = new PromocionAbsoluta(id, nombre, atraccion1, atraccion2, p.calcularTiempo(), p.getCosto() ,tipo, p.calcularCupo());
+			PromocionAbsoluta d = new PromocionAbsoluta(id, nombre, atraccion1, atraccion2, p.calcularTiempo(), p.getCosto() ,tipo, p.getCupo());
 			promoP.add(d);
 	}
 		

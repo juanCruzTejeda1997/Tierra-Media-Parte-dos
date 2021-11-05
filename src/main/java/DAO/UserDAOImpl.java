@@ -10,16 +10,7 @@ import jdbc.ConnectionProvider;
 import model.Usuario;
 import model.tipo;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
 
-import jdbc.ConnectionProvider;
-import model.Usuario;
-import model.tipo;
 
 public class UserDAOImpl implements UserDAO{
 
@@ -126,7 +117,7 @@ public class UserDAOImpl implements UserDAO{
 			
 	}
 		
-	public List<Usuario> findAll() {
+	public LinkedList<Usuario> findAll() {
 		try {
 			String sql="SELECT * FROM usuario";
 			Connection conn = ConnectionProvider.getConnection();
@@ -134,7 +125,7 @@ public class UserDAOImpl implements UserDAO{
 			
 			ResultSet resultados= statement.executeQuery();
 			
-			List<Usuario> usuarios=new LinkedList<Usuario>();
+		LinkedList<Usuario> usuarios=new LinkedList<Usuario>();
 			
 			while(resultados.next()) {
 				usuarios.add(toUser(resultados));
@@ -203,6 +194,8 @@ public class UserDAOImpl implements UserDAO{
 		}
 			
 	}
+
+	
 
 	
 
