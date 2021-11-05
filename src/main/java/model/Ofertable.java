@@ -13,7 +13,7 @@ public class Ofertable implements Comparator<Producto> {
 	
 	
 	public int compare(Producto o1, Producto o2) {
-		if (o1.getTipo() == this.preferido && o2.getTipo() == this.preferido) {
+		if (o1.tipo == this.preferido && o2.tipo == this.preferido) {
 			if (o1.esPromo() && o2.esPromo()) {
 				if (Double.compare(o1.costo, o2.costo) == 0) {
 					return -Double.compare(o1.tiempo, o2.tiempo);
@@ -24,7 +24,7 @@ public class Ofertable implements Comparator<Producto> {
 			} else {
 				return -Boolean.compare(o1.esPromo(), o2.esPromo());
 			}
-		} else if (o1.getTipo() != this.preferido && o2.getTipo() != this.preferido) {
+		} else if (o1.tipo != this.preferido && o2.tipo != this.preferido) {
 			if (o1.esPromo() && o2.esPromo()) {
 				if (Double.compare(o1.costo, o2.costo) == 0) {
 					return -Double.compare(o1.tiempo, o2.tiempo);
@@ -43,7 +43,7 @@ public class Ofertable implements Comparator<Producto> {
 				return -Boolean.compare(o1.esPromo(), o2.esPromo());
 			}
 		} else {
-			if (o1.getTipo() == this.preferido)return -1;
+			if (o1.tipo == this.preferido)return -1;
 			return 1;
 		}
 	}

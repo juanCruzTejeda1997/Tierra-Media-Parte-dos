@@ -1,9 +1,7 @@
 package model;
 
 
-
 public class Itinerario {
-	
 	private int id;
 	private int atraccion_id;
 	private int promocion_porcentual_id;
@@ -37,6 +35,18 @@ public class Itinerario {
 		this.usuario = usuario;
 		this.tipo_producto = tipo_producto;
 	}
+	
+	public Itinerario(int id, Atraccion atraccion, PromocionPorcentual promocionPorcentual, PromocionAxB promocionAxB,
+			PromocionAbsoluta promocionAbsoluta, Usuario usuario) {
+		this.id = id;
+		this.atraccion = atraccion;
+		this.promocionPorcentual = promocionPorcentual;
+		this.promocionAxB = promocionAxB;
+		this.promocionAbsoluta = promocionAbsoluta;
+		this.usuario = usuario;
+	
+	}
+	
 	
 	public tipo_producto getTipoProducto() {
 		return tipo_producto;
@@ -212,5 +222,14 @@ public class Itinerario {
 			return false;
 		return true;
 	}
+
+	
+	
+
+	
+	
+	
+	
+	
 
 }

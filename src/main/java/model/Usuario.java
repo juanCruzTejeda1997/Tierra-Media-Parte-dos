@@ -9,6 +9,7 @@ import DAO.ItinerarioDAOImpl;
 
 public class Usuario {
 
+
     private int id;
 	private String nombre;
 	private double presupuesto;
@@ -162,4 +163,5 @@ public class Usuario {
 		return TiempoGastadoDelUsuario;
 		
 	}
+	
 }

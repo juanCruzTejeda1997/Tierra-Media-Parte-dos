@@ -36,7 +36,7 @@ public class PromocionPorcentual extends Promocion {
 
 	public double calcularCosto() {
 
-		return Math.round((atraccion1.getCosto() + atraccion2.getCosto()) * (descuento));
+		return Math.round((atraccion1.getCosto() + atraccion2.getCosto()) * (descuento / 100));
 	}
 	public double getCosto() {
 		return this.costo;
