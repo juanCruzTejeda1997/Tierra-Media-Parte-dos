@@ -8,7 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+
 import java.util.LinkedList;
 
 import jdbc.ConnectionProvider;
@@ -87,15 +87,14 @@ public int insert(PromocionAbsoluta promocion) {
 	
 	
 	
-	public LinkedList<PromocionAbsoluta> getPromocionesAbsolutas(){
+	public LinkedList<PromocionAbsoluta> getPromocionesAbsolutas(LinkedList<Atraccion> atracciones){
 		try {
 		String sql = "SELECT * FROM Promocion_Absoluta";
 		Connection conn = ConnectionProvider.getConnection();
 		PreparedStatement statement = conn.prepareStatement(sql);
 		ResultSet resultados = statement.executeQuery();
 		LinkedList<PromocionAbsoluta> promoP = new LinkedList<PromocionAbsoluta>();
-		AtraccionDAOImpl atraccion = new AtraccionDAOImpl();
-		ArrayList<Atraccion> ListaDeAtracciones = atraccion.getAtracciones();
+		
 
 		while (resultados.next()) {
 			Integer id = resultados.getInt(1);
@@ -119,15 +118,15 @@ public int insert(PromocionAbsoluta promocion) {
 			}
 			
 		
-			for (int i = 0; i < ListaDeAtracciones.size(); i++) {
-				if(atraccion1_id.equals(ListaDeAtracciones.get(i).getId()) ) {
-					atraccion1 = ListaDeAtracciones.get(i);					
+			for (int i = 0; i < atracciones.size(); i++) {
+				if(atraccion1_id.equals(atracciones.get(i).getId()) ) {
+					atraccion1 = atracciones.get(i);					
 					
 				}
-				if (atraccion2_id.equals(ListaDeAtracciones.get(i).getId())) {
-					atraccion2 = ListaDeAtracciones.get(i);
+				if (atraccion2_id.equals(atracciones.get(i).getId())) {
+					atraccion2 = atracciones.get(i);
 					
-					tipo = ListaDeAtracciones.get(i).getTipo();
+					tipo = atracciones.get(i).getTipo();
 			}
 			
 				
@@ -194,6 +193,8 @@ public int insert(PromocionAbsoluta promocion) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+
 	
 
 	

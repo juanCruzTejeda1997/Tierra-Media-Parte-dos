@@ -3,9 +3,12 @@ package model;
 import java.util.Collections;
 import java.util.LinkedList;
 
+import DAO.ItinerarioDAOImpl;
+
 
 
 public class Usuario {
+
 
     private int id;
 	private String nombre;
@@ -130,5 +133,35 @@ public class Usuario {
 		return true;
 	}
 	
+	public double gastoTotal() {
+		ItinerarioDAOImpl it = new ItinerarioDAOImpl();
+		double GastoTotalDelUsuario = 0;
+		LinkedList<Itinerario> itinerario = it.buscarItinerarioPorUsuario(this.getNombre());
+		
+		for (Itinerario item : itinerario) {
+			double gasto = 0;
+			gasto +=item.calcularCosto();
+			GastoTotalDelUsuario += gasto;
+			gasto = 0;
+		}
+		return GastoTotalDelUsuario;
+	}
+	
+	public double gastoTotalTiempo() {
+		ItinerarioDAOImpl it = new ItinerarioDAOImpl();
+		double TiempoGastadoDelUsuario = 0;
+		LinkedList<Itinerario> itinerario = it.buscarItinerarioPorUsuario(this.getNombre());
+		
+		for (Itinerario item : itinerario) {
+			
+			double gasto = 0;
+			gasto += item.calcularTiempo();
+			TiempoGastadoDelUsuario += gasto;
+			gasto = 0;
+		}
+		
+		return TiempoGastadoDelUsuario;
+		
+	}
 	
 }

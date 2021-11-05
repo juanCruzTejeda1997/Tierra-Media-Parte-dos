@@ -1,5 +1,9 @@
 package DAO;
 
+import static model.tipo.AVENTURA;
+import static model.tipo.DEGUSTACION;
+import static model.tipo.PAISAJE;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,10 +15,12 @@ import java.util.List;
 import jdbc.ConnectionProvider;
 import model.Atraccion;
 import model.Itinerario;
+import model.Producto;
 import model.PromocionAbsoluta;
 import model.PromocionAxB;
 import model.PromocionPorcentual;
 import model.Usuario;
+import model.tipo;
 
 public class ItinerarioDAOImpl implements ItinerarioDAO {
 
@@ -97,10 +103,10 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 			ResultSet resultados = statement.executeQuery();
 			LinkedList<Itinerario> itinerario = new LinkedList<Itinerario>();
 			LinkedList<Usuario> usuarios = userImpl.getUsuaries();
-			ArrayList<Atraccion> atracciones = atrImpl.getAtracciones();
-			LinkedList<PromocionAbsoluta> promosAbsolutas = absImpl.getPromocionesAbsolutas();
-			LinkedList<PromocionAxB> promosAxB = axbImpl.getPromocionesAxB();
-			LinkedList<PromocionPorcentual> promosPorcentuales = porcImpl.getPromocionesPorcentuales();
+			LinkedList<Atraccion> atracciones = atrImpl.getAtracciones();
+			LinkedList<PromocionAbsoluta> promosAbsolutas = absImpl.getPromocionesAbsolutas(atracciones);
+			LinkedList<PromocionAxB> promosAxB = axbImpl.getPromocionesAxB(atracciones);
+			LinkedList<PromocionPorcentual> promosPorcentuales = porcImpl.getPromocionesPorcentuales(atracciones);
 
 			while (resultados.next()) {
 				Integer id = resultados.getInt(1);
@@ -163,6 +169,98 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 			throw new MissingDataException(e);
 		}
 	}
+
+	public LinkedList<Itinerario> getAllProductos() {
+		try {
+			String sql = "SELECT * FROM Promocion_Absoluta ";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			ResultSet resultados = statement.executeQuery();
+
+			LinkedList<Itinerario> productos = new LinkedList<Itinerario>();
+			while (resultados.next()) {
+				productos.add(toItinerario(resultados));
+			}
+
+			return productos;
+		} catch (Exception e) {
+			throw new MissingDataException(e);
+		}
+	}
+
+	public LinkedList<Itinerario> toProducto(LinkedList <Atraccion> atracciones, LinkedList <Usuario> usuarios, LinkedList<PromocionAbsoluta>prA,
+			LinkedList<PromocionAxB>prAxB, LinkedList<PromocionPorcentual>proP) throws SQLException{
+		
+		String sql = "SELECT * FROM Itinerario";
+		Connection conn = ConnectionProvider.getConnection();
+		PreparedStatement statement = conn.prepareStatement(sql);
+		ResultSet resultados = statement.executeQuery();	
+		LinkedList<Itinerario> it = new LinkedList<Itinerario>();
+
+		while (resultados.next()) {
+			Integer id = resultados.getInt(1);
+			Integer atr_id = resultados.getInt(2);
+			Integer prPorc_id = resultados.getInt(3);
+			Integer prAxB_id = resultados.getInt(4);
+			Integer proAbs_id = resultados.getInt(5);
+			Integer usuario_id = resultados.getInt(6);
+			Atraccion atrcc = null;
+			Usuario us = null;
+			PromocionPorcentual promP= null;
+			PromocionAxB promAxB= null;
+			PromocionAbsoluta promAbs= null;
+		  		
+		
+			for (int i = 0; i < atracciones.size(); i++) {
+				if(atr_id.equals(atracciones.get(i).getId()) ) {
+					atrcc = atracciones.get(i);					
+					
+				}
+			}
+			
+			for (int i = 0; i < usuarios.size(); i++) {
+				if(usuario_id.equals(usuarios.get(i).getId()) ) {
+					us= usuarios.get(i);					
+					
+				}
+			}
+			
+			
+			
+				for (int j = 0; j < prA.size(); j++) {
+					if(proAbs_id.equals(prA.get(j).getId()) ) {
+						promAbs = prA.get(j);					
+						
+					}
+				}
+				
+				
+				
+				for (int i = 0; i < prAxB.size(); i++) {
+						if(prAxB_id.equals(prAxB.get(i).getId()) ) {
+							promAxB = prAxB.get(i);					
+							
+						}
+				}
+				
+				
+				
+				for (int i = 0; i < proP.size(); i++) {
+							if(prPorc_id.equals(proP.get(i).getId()) ) {
+								promP = proP.get(i);					
+								
+							}
+				}
+				Itinerario p = new Itinerario(id, atr_id, prPorc_id, prAxB_id,proAbs_id, usuario_id);
+				
+				Itinerario d = new Itinerario(id, atrcc, promP, promAxB,promAbs, us);
+				it.add(d);
+		}
+	}
+				
+						
+		
+			
 
 	@SuppressWarnings("unused")
 	private Itinerario toItinerario(ResultSet resultados) {

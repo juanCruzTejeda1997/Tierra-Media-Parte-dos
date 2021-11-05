@@ -1,29 +1,30 @@
 package app;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Scanner;
 
 import DAO.AtraccionDAO;
-import DAO.AtraccionDAOImpl;
 import DAO.DAOFactory;
 import DAO.ItinerarioDAOImpl;
-import DAO.PromocionAbsolutaDAO;
 import DAO.PromocionAbsolutaDAOImpl;
 import DAO.PromocionAxBDAOImpl;
-import DAO.PromocionDAO;
-import DAO.PromocionPorcentualDAO;
 import DAO.PromocionPorcentualDAOImpl;
 import DAO.UserDAOImpl;
-import model.*;
+import model.Atraccion;
+import model.Producto;
+import model.Promocion;
+import model.PromocionAbsoluta;
+import model.PromocionAxB;
+import model.PromocionPorcentual;
+import model.Usuario;
+
 
 public class App1 {
 
 	private LinkedList<Producto> productosDeTierraMedia = new LinkedList<Producto>();
 	private LinkedList<Usuario> usuarios = new LinkedList<Usuario>();
-	private ArrayList<Atraccion> atraccionesTM = new ArrayList<Atraccion>();
+	private LinkedList<Atraccion> atraccionesTM = new LinkedList<Atraccion>();
 	private LinkedList<PromocionAbsoluta> promocionesA_TM = new LinkedList<PromocionAbsoluta>();
 	private LinkedList<PromocionAxB> promocionesAxB_TM = new LinkedList<PromocionAxB>();
 	private LinkedList<PromocionPorcentual> promocionesP_TM = new LinkedList<PromocionPorcentual>();
@@ -51,11 +52,11 @@ public class App1 {
 
 		// tomo de mi base de datos las promociones
 
-		this.promocionesA_TM = prA.getPromocionesAbsolutas();
+		this.promocionesA_TM = prA.getPromocionesAbsolutas(atraccionesTM);
 
-		this.promocionesP_TM = prP.getPromocionesPorcentuales();
+		this.promocionesP_TM = prP.getPromocionesPorcentuales(atraccionesTM);
 
-		this.promocionesAxB_TM = prAxB.getPromocionesAxB();
+		this.promocionesAxB_TM = prAxB.getPromocionesAxB(atraccionesTM);
 
 		// agrego mis productos a mi lista de productos
 		for (Atraccion atraccion : atraccionesTM) {
@@ -73,6 +74,10 @@ public class App1 {
 		for (Promocion promocion : promocionesP_TM) {
 			productosDeTierraMedia.add(promocion);
 		}
+		
+		
+		
+		
 
 		this.productosDeTierraMedia = productosDeTierraMedia;
 		this.usuarios = usuarios;
@@ -80,9 +85,12 @@ public class App1 {
 
 	@SuppressWarnings("static-access")
 	public static void main(String[] args) throws SQLException {
+		AtraccionDAO atrcc = DAOFactory.getAtraccionDAO();
+		
 		App1 nuevaApp = new App1();
 
 		nuevaApp.cargaDatos();
+		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		String respuesta;
 		for (Usuario usuario : nuevaApp.getUsuarios()) {
@@ -91,6 +99,7 @@ public class App1 {
 
 			usuario.listaDePreferencias(nuevaApp.getProductosDeTierraMedia(), usuario.getTipo_preferencia());
 			for (Producto producto : nuevaApp.getProductosDeTierraMedia()) {
+
 				if (producto.getCosto() <= usuario.getPresupuesto()) {
 
 					if (producto.getCupo() >= 1) {
@@ -101,38 +110,45 @@ public class App1 {
 							respuesta = sc.next();
 
 							if (respuesta.toUpperCase().equals("Y")) {
-
+								
+								
 								for (Atraccion atraccion : nuevaApp.atraccionesTM) {
 									if (atraccion.getNombre().equalsIgnoreCase(producto.getNombre())) {
 										it.insertAtraccion(atraccion, usuario);
+										atraccion.restarCupo();
+										atrcc.update(atraccion);
+
 									}
 								}
 
 								for (PromocionAxB promocionAxB : nuevaApp.promocionesAxB_TM) {
 									if (promocionAxB.getNombre().equalsIgnoreCase(producto.getNombre())) {
 										it.insertPromocionAxB(promocionAxB, usuario);
+										promocionAxB.restarCupo();
+
 									}
 								}
 
 								for (PromocionAbsoluta promocionAbsoluta : nuevaApp.promocionesA_TM) {
-									if (promocionAbsoluta.getNombre().equalsIgnoreCase(producto.getNombre())) {
+									if (promocionAbsoluta.getNombre().equalsIgnoreCase(producto.getNombre() )) {
 										it.insertPromocionAbsoluta(promocionAbsoluta, usuario);
+										promocionAbsoluta.restarCupo();
+										
 									}
 								}
 
 								for (PromocionPorcentual promocionPorcentual : nuevaApp.promocionesP_TM) {
 									if (promocionPorcentual.getNombre().equalsIgnoreCase(producto.getNombre())) {
 										it.insertPromocionPorcentual(promocionPorcentual, usuario);
+										promocionPorcentual.restarCupo();
 									}
 								}
 
-								producto.restarCupo();
 								usuario.restarPresupuesto(producto.getCosto());
-								System.out.println(usuario.getPresupuesto());
+							
+								
 								usuario.restarTiempo(producto.getTiempo());
-								System.out.println(usuario.getTiempoDisponible());
-								System.out.println(producto.getTiempo());
-
+								
 								System.out.println(
 										"Ha comprado el producto " + producto.getNombre() + " , " + producto.getNombre()
 												+ " contiene ahora " + producto.getCupo() + " lugares disponibles");

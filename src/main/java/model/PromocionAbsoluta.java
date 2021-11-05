@@ -46,8 +46,8 @@ public class PromocionAbsoluta extends Promocion {
 
 	@Override
 	public void restarCupo() {
-		super.atraccion1.restarCupo();
-		super.atraccion2.restarCupo();
+		this.atraccion1.restarCupo();
+		this.atraccion2.restarCupo();
 
 	}
 

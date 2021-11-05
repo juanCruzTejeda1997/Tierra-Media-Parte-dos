@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+
 import java.util.LinkedList;
 
 
@@ -80,15 +80,14 @@ public class PromocionAxBDAOImpl implements PromocionAxBDAO {
 	}
 	
 	
-	public LinkedList<PromocionAxB> getPromocionesAxB() {
+	public LinkedList<PromocionAxB> getPromocionesAxB(LinkedList<Atraccion> atracciones) {
 		try {
 			String sql = "SELECT * FROM PromocionAxB";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet resultados = statement.executeQuery();
 			LinkedList<PromocionAxB> promoP = new LinkedList<PromocionAxB>();
-			AtraccionDAOImpl atraccion = new AtraccionDAOImpl();
-			ArrayList<Atraccion> ListaDeAtracciones = atraccion.getAtracciones();
+		
 	
 			while (resultados.next()) {
 				Integer id = resultados.getInt(1);
@@ -113,17 +112,17 @@ public class PromocionAxBDAOImpl implements PromocionAxBDAO {
 					tipo = model.tipo.PAISAJE;
 				}
 	
-				for (int i = 0; i < ListaDeAtracciones.size(); i++) {
-					if(atraccion1_id.equals(ListaDeAtracciones.get(i).getId()) ) {
-						atraccion1 = ListaDeAtracciones.get(i);					
+				for (int i = 0; i < atracciones.size(); i++) {
+					if(atraccion1_id.equals(atracciones.get(i).getId()) ) {
+						atraccion1 = atracciones.get(i);					
 					}
-					if (atraccion2_id.equals(ListaDeAtracciones.get(i).getId())) {
-						atraccion2 = ListaDeAtracciones.get(i);
-						tipo = ListaDeAtracciones.get(i).getTipo();
+					if (atraccion2_id.equals(atracciones.get(i).getId())) {
+						atraccion2 = atracciones.get(i);
+						tipo = atracciones.get(i).getTipo();
 					}
-					if (atraccion_gratis_id.equals(ListaDeAtracciones.get(i).getId())) {
-						atraccion_gratis = ListaDeAtracciones.get(i);
-						tipo = ListaDeAtracciones.get(i).getTipo();
+					if (atraccion_gratis_id.equals(atracciones.get(i).getId())) {
+						atraccion_gratis = atracciones.get(i);
+						tipo = atracciones.get(i).getTipo();
 					}
 				
 				}

@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+
 import java.util.LinkedList;
 
 import jdbc.ConnectionProvider;
@@ -55,7 +55,7 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 		}
 	}
 
-	public ArrayList<Atraccion> getAtracciones() {
+	public LinkedList<Atraccion> getAtracciones() {
 		
 		try {
 		String sql = "SELECT * FROM Atraccion";
@@ -63,7 +63,7 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 		PreparedStatement statement = conn.prepareStatement(sql);
 		ResultSet resultados = statement.executeQuery();
 
-		ArrayList<Atraccion> atracciones = new ArrayList<Atraccion>();
+		LinkedList<Atraccion> atracciones = new LinkedList<Atraccion>();
 		while (resultados.next()) {
 			int id = resultados.getInt(1);
 			String nombreDeAtraccion = resultados.getString(2);
@@ -103,9 +103,20 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 		return 0;
 	}
 
-	public int update(Atraccion t) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int update(Atraccion atr) {
+		try {
+			String sql = "UPDATE Atraccion SET cupo = ? WHERE nombre = ?";
+			Connection conn = ConnectionProvider.getConnection();
+
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setInt(1, atr.getCupo());
+			statement.setString(2, atr.getNombre());
+			int rows = statement.executeUpdate();
+
+			return rows;
+		} catch (Exception e) {
+			throw new MissingDataException(e);
+		}
 	}
 
 	public int delete(Atraccion t) {

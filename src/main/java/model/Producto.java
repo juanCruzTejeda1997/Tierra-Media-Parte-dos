@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import turismoTierraMedia.Producto;
+
 
 
 
@@ -164,6 +166,7 @@ public abstract class Producto {
 		return true;
 	}
 	
+
 	
 
 		
