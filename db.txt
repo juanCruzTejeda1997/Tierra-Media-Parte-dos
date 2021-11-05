@@ -1,0 +1,110 @@
+CREATE TABLE "Tipo" (
+	"id"	INTEGER NOT NULL DEFAULT 1,
+	"nombre"	TEXT NOT NULL,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+
+CREATE TABLE "Atraccion" (
+	"id" INTEGER,
+	"nombre" TEXT NOT NULL,
+	"costo"	REAL NOT NULL,
+	"tiempo" REAL NOT NULL,
+	"cupo" INTEGER NOT NULL,
+	"id_tipo_atraccion"	INTEGER NOT NULL,
+	FOREIGN KEY("id_tipo_atraccion") REFERENCES "Tipo"("id"),
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+
+
+CREATE TABLE "PromocionAxB" (
+	"id"	INTEGER NOT NULL DEFAULT 1,
+	"nombre"	TEXT,
+	"atraccion1_id"	INTEGER NOT NULL,
+	"atraccion2_id"	INTEGER NOT NULL,
+	"atraccion_gratis_id"	INTEGER NOT NULL,
+	"tiempo"	REAL NOT NULL,
+	"costo"	REAL NOT NULL,
+	"tipo_id"	INTEGER NOT NULL,
+	"cupo"	INTEGER NOT NULL,
+	PRIMARY KEY("id" AUTOINCREMENT),
+	FOREIGN KEY("atraccion1_id") REFERENCES "Atraccion"("Id"),
+	FOREIGN KEY("atraccion2_id") REFERENCES "Atraccion"("Id"),
+	FOREIGN KEY("atraccion_gratis_id") REFERENCES "Atraccion"("Id"),
+	FOREIGN KEY("tipo_id") REFERENCES "Tipo"
+);
+
+CREATE TABLE "Promocion_Absoluta" (
+	"id"	INTEGER NOT NULL DEFAULT 1,
+	"nombre"	TEXT NOT NULL,
+	"atraccion1_id"	INTEGER NOT NULL,
+	"atraccion2_id"	INTEGER NOT NULL,
+	"tiempo"	INTEGER NOT NULL,
+	"costo"	INTEGER NOT NULL,
+	"tipo_id"	INTEGER NOT NULL,
+	"cupo"	INTEGER NOT NULL,
+	PRIMARY KEY("id" AUTOINCREMENT),
+	FOREIGN KEY("atraccion2_id") REFERENCES "Atraccion"("Id"),
+	FOREIGN KEY("atraccion1_id") REFERENCES "Atraccion"("Id")
+);
+
+CREATE TABLE "Promocion_Porcentual" (
+	"id"	INTEGER NOT NULL DEFAULT 1,
+	"nombre"	TEXT NOT NULL,
+	"atraccion1_id"	INTEGER NOT NULL,
+	"atraccion2_id"	INTEGER NOT NULL,
+	"tiempo"	REAL NOT NULL,
+	"descuento"	REAL NOT NULL,
+	"costo"	REAL NOT NULL,
+	"tipo_id"	INTEGER NOT NULL,
+	"cupo"	INTEGER NOT NULL,
+	PRIMARY KEY("id" AUTOINCREMENT),
+	FOREIGN KEY("tipo_id") REFERENCES "Tipo"("id"),
+	FOREIGN KEY("atraccion1_id") REFERENCES "Atraccion"("Id"),
+	FOREIGN KEY("atraccion2_id") REFERENCES "Atraccion"("Id")
+);
+
+CREATE TABLE "Usuario" (
+	"id"	INTEGER NOT NULL DEFAULT 1,
+	"nombre"	TEXT NOT NULL,
+	"presupuesto"	REAL NOT NULL,
+	"tiempo_disponible"	REAL NOT NULL,
+	"tipo_preferencia_id"	INTEGER NOT NULL,
+	FOREIGN KEY("tipo_preferencia_id") REFERENCES "Tipo"("id"),
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+
+CREATE TABLE "Itinerario" (
+	"id"	INTEGER NOT NULL DEFAULT 1,
+	"atraccion_id"	INTEGER,
+	"promocion_porcentual_id"	INTEGER,
+	"promocion_axb_id"	INTEGER,
+	"promocion_absoluta_id"	INTEGER,
+	"usuario_id"	INTEGER NOT NULL,
+	FOREIGN KEY("usuario_id") REFERENCES "Usuario"("id"),
+	FOREIGN KEY("promocion_absoluta_id") REFERENCES "Promocion_Absoluta"("id"),
+	FOREIGN KEY("promocion_porcentual_id") REFERENCES "Promocion_Porcentual"("id"),
+	FOREIGN KEY("promocion_axb_id") REFERENCES "PromocionAxB"("id"),
+	FOREIGN KEY("atraccion_id") REFERENCES "Atraccion"("Id"),
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+
+---------------------------------DATOS-------------------------
+INSERT INTO Tipo (nombre) VALUES ('AVENTURA'),('DEGUSTACION'),('PAISAJE');
+
+INSERT INTO Atraccion (nombre, costo, tiempo, cupo, id_tipo_atraccion) VALUES ('Moria', 10, 2, 6, 1),
+('Minas Tirith', 5, 2.5, 25, 3),
+('La Comarca', 3, 6.5, 150, 2),
+('Mordor', 25, 3, 4, 1),
+('Abismo de Helm', 5, 2, 15, 3),
+('Lothlorien', 35, 1, 30, 2),
+('Erebor', 12, 3, 32, 3),
+('Bosque Negro', 3, 4, 12, 1);
+
+INSERT INTO Usuario (nombre, presupuesto, tiempo_disponible, tipo_preferencia_id) VALUES ('Eowyn', 100, 80, 1),
+('Gandalf', 100, 8, 3),
+('Sam', 36, 8, 2),
+('Galadriel', 120, 5, 3);
+
+INSERT INTO PromocionAxB (nombre, atraccion1_id, atraccion2_id, atraccion_gratis_id, tiempo, costo, tipo_id, cupo) VALUES ('Pack Paisajes', 2, 5, 7, 7.5, 10, 3, 15);
+INSERT INTO Promocion_Absoluta(nombre, atraccion1_id, atraccion2_id, tiempo, costo, tipo_id, cupo) VALUES ('Pack Degustación', 3, 6, 7.5, 36, 2, 30);
+INSERT INTO Promocion_Porcentual(nombre, atraccion1_id, atraccion2_id, tiempo, descuento, costo, tipo_id, cupo) VALUES ('Pack Aventura', 1, 4, 7, 0.2, 26, 1, 4);
