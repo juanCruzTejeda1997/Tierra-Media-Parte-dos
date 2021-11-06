@@ -97,9 +97,10 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 	public LinkedList<Itinerario> buscarItinerarioPorUsuario(String nombre) {
 		try {
-			String sql = "SELECT * FROM ITINERARIO WHERE EXISTS (SELECT usuario.id FROM USUARIO WHERE (itinerario.usuario_id = usuario.id AND usuario.nombre = nombre))";
+			String sql = "SELECT * FROM Itinerario WHERE usuario_id = (SELECT id FROM Usuario WHERE nombre = ?)";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, nombre);
 			ResultSet resultados = statement.executeQuery();
 			LinkedList<Itinerario> itinerario = new LinkedList<Itinerario>();
 			LinkedList<Usuario> usuarios = userImpl.getUsuaries();
